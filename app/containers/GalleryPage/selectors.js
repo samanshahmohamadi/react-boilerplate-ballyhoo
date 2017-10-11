@@ -18,7 +18,7 @@ const makeSelectLoading = () => createSelector(
 
 const makeSelectGallery = () => createSelector(
   selectGallery,
-  (galleryState) => galleryState.get('gallery')
+  (galleryState) => galleryState.get('galleries')
 );
 
 const makeSelectMediaId = () => createSelector(

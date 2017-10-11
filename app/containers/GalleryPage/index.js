@@ -34,6 +34,7 @@ export class GalleryPage extends React.PureComponent { // eslint-disable-line re
   }
 
   render() {
+    console.log("GALLERY",this.props.galleries)
     const {loading, error} = this.props;
     return (<article>
       <Helmet
@@ -42,11 +43,12 @@ export class GalleryPage extends React.PureComponent { // eslint-disable-line re
           {name: 'description', content: 'Ballyhooawards'}
         ]}
       />
-      {this.props.gallery ? (
+      {this.props.galleries !== undefined ? (
         <div style={mainStyle}>
           <Card.Group itemsPerRow={4}>
-            {Object.keys(this.props.gallery).map(function (k) {
-              let item = this.props.gallery[k]
+            {Object.keys(this.props.galleries).map(function (k) {
+              let item = this.props.galleries[k]
+              console.log(">>>>>>>>>>>>>> ",item)
               return <Card key={k}>
                 <Icon style={{margin: '10px auto 10px auto'}} color='blue' name='film' size='massive'/>
                 <Card.Content>
@@ -57,9 +59,9 @@ export class GalleryPage extends React.PureComponent { // eslint-disable-line re
                     <span className='date faNo'>
                       {timeToJalaliDate(item.txCreatedDate)}
                     </span>
-                    {/*<span>
+                    <span>
                       {item.subject}
-                    </span>*/}
+                    </span>
                   </Card.Meta>
                   <Card.Description>
                     {item.desc}
@@ -110,7 +112,7 @@ export function mapDispatchToProps(dispatch) {
 const mapStateToProps = createStructuredSelector({
   loading: makeSelectLoading(),
   error: makeSelectError(),
-  gallery: makeSelectGallery()
+  galleries: makeSelectGallery()
 });
 
 // Wrap the component to inject dispatch and state into it

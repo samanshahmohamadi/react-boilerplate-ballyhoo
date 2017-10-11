@@ -24,6 +24,7 @@ const initialState = fromJS({
 });
 
 function galleryReducer(state = initialState, action) {
+  console.log(action)
   switch (action.type) {
     case RESET_ERROR_LOADING:
       return state
@@ -37,7 +38,7 @@ function galleryReducer(state = initialState, action) {
       return state
         .set('loading', false)
         .set('error', false)
-        .set('gallery', action.response.data)
+        .set('galleries', action.response.data)
     case GET_GALLERY_ERROR:
       return state
         .set('loading', false)
