@@ -4,8 +4,8 @@
 import axios from 'axios';
 import {browserHistory} from 'react-router'
 const Config = {}
-Config.UMBackendAddr = 'http://utadoc.com/api'
-Config.SabtshodBackendAddr = 'http://sabtshod.com/api'
+Config.UMBackendAddr = 'http://utadoc.com'
+Config.SabtshodBackendAddr = 'http://sabtshod.com'
 
 export default class HttpRequest {
 	constructor() {
