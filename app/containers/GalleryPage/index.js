@@ -34,7 +34,6 @@ export class GalleryPage extends React.PureComponent { // eslint-disable-line re
   }
 
   render() {
-    console.log("GALLERY",this.props.galleries)
     const {loading, error} = this.props;
     return (<article>
       <Helmet
@@ -48,7 +47,6 @@ export class GalleryPage extends React.PureComponent { // eslint-disable-line re
           <Card.Group itemsPerRow={4}>
             {Object.keys(this.props.galleries).map(function (k) {
               let item = this.props.galleries[k]
-              console.log(">>>>>>>>>>>>>> ",item)
               return <Card key={k}>
                 <Icon style={{margin: '10px auto 10px auto'}} color='blue' name='film' size='massive'/>
                 <Card.Content>
@@ -77,7 +75,11 @@ export class GalleryPage extends React.PureComponent { // eslint-disable-line re
             }
           </Card.Group>
         </div>
-      ) : (null)}
+      ) : (<H2 style={{position: 'absolute',
+        fontSize: '36px',
+        color: 'rgba(128, 128, 128, 0.9)',
+        right: '25%',
+        top: '25%'}}>شما هنوز هیچ اثری ثبت نکرده‌اید.</H2>)}
     </article>)
   }
 }
