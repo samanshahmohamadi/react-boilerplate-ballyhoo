@@ -93,33 +93,33 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                   <H3><FormattedMessage {...messages.accountInfo}/></H3>
                   <Form.Field>
                     <label>ایمیل</label>
-                    <input /*required={true}*/ name="email" placeholder='ایمیل' onChange={this.handleInputChange}/>
+                    <input required={true} name="email" placeholder='ایمیل' onChange={this.handleInputChange}/>
                   </Form.Field>
                   <Form.Field>
                     <label>نام</label>
-                    <input /*required={true}*/ name="name" placeholder='نام' onChange={this.handleInputChange}/>
+                    <input required={true} name="name" placeholder='نام' onChange={this.handleInputChange}/>
                   </Form.Field>
                   <Form.Field>
                     <label>نام خانوادگی</label>
-                    <input /*required={true}*/ name="lastName" placeholder='نام خانوادگی'
+                    <input required={true} name="lastName" placeholder='نام خانوادگی'
                                                onChange={this.handleInputChange}/>
                   </Form.Field>
                   <Form.Field>
                     <label>سمت</label>
-                    <input /*required={true}*/ name="job" placeholder='سمت' onChange={this.handleInputChange}/>
+                    <input required={true} name="job" placeholder='سمت' onChange={this.handleInputChange}/>
                   </Form.Field>
                   <Form.Field>
                     <label>شماره تلفن</label>
-                    <input /*required={true}*/ name="phone" placeholder='شماره تلفن' onChange={this.handleInputChange}/>
+                    <input required={true} name="phone" placeholder='شماره تلفن' onChange={this.handleInputChange}/>
                   </Form.Field>
                   <Form.Field>
                     <label>رمز عبور</label>
-                    <input /*required={true}*/ type="password" name="password" placeholder='رمز عبور'
+                    <input required={true} type="password" name="password" placeholder='رمز عبور'
                                                onChange={this.handleInputChange}/>
                   </Form.Field>
                   <Form.Field>
                     <label>تکرار رمز عبور</label>
-                    <input /*required={true}*/ type="password" name="confirmPassword" placeholder='تکرار رمز عبور'
+                    <input required={true} type="password" name="confirmPassword" placeholder='تکرار رمز عبور'
                                                onChange={this.handleInputChange}/>
                   </Form.Field>
                 </Grid.Column>
@@ -166,12 +166,12 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                   <H3><FormattedMessage {...messages.creativeDirectorInfo}/></H3>
                   <Form.Field>
                     <label>نام</label>
-                    <input /*required={true}*/ name="cdName" placeholder='نام'
+                    <input required={true} name="cdName" placeholder='نام'
                                                onChange={this.handleInputChange}/>
                   </Form.Field>
                   <Form.Field>
                     <label>نام خانوادگی</label>
-                    <input /*required={true}*/ name="cdLastName" placeholder='نام خانوادگی'
+                    <input required={true} name="cdLastName" placeholder='نام خانوادگی'
                                                onChange={this.handleInputChange}/>
                   </Form.Field>
                   <Button style={{bottom: '0', position: 'absolute'}} fluid color='green'>ثبت نام</Button>
