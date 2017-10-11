@@ -5,6 +5,38 @@ const CryptoJS = require("crypto-js");
 const JSZip = require("jszip");
 
 
+export const createZip = (id, files) => {
+  let promises = []
+  files.forEach((v, k) => {
+    promises.push(readFile(v))
+  })
+  Promise.all(promises)
+    .then(payload => {
+
+    })
+}
+
+export const readFile = (file) => {
+  return new Promise(function (resolve, reject) {
+    let fileReader = new FileReader();
+    fileReader.readAsBinaryString(file);
+    fileReader.onload = function (event) {
+      let content
+      if (!event) {
+        content = fileReader.content;
+      }
+      else {
+        content = event.target.result;
+      }
+      resolve(content)
+    };
+    fileReader.onerror = function (evt) {
+      reject('There was an error in reading file, please check the file and try again.')
+    }
+  })
+}
+
+
 export const makeZip = (id, files) => {
   let zip = new JSZip();
   let readContentPromises = []
@@ -14,6 +46,7 @@ export const makeZip = (id, files) => {
   return Promise.all(readContentPromises)
     .then(payload => {
       payload.map(blob => {
+        console.log(blob.fileName, blob.content)
         zip.file(blob.fileName, blob.content);
       })
       return zip.generateAsync({type: "blob"})
@@ -21,9 +54,9 @@ export const makeZip = (id, files) => {
     .then(content => {
       let tmpName = id + '-' + new Date().getTime()
       let file = new File([content], tmpName + ".zip", {
-        type: "application/zip",
-        lastModified: new Date(),
-        lastModifiedTime: new Date().getTime()
+        // type: "application/zip",
+        // lastModified: new Date(),
+        // lastModifiedTime: new Date().getTime()
       });
       return file
     });
