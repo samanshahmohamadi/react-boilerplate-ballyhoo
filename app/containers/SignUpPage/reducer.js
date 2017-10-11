@@ -23,13 +23,6 @@ const initialState = fromJS({
 
 function signUpReducer (state = initialState, action) {
   switch (action.type) {
-    case CHANGE_EMAIL:
-      return state
-        .set('email', action.email);
-    case CHANGE_PASSWORD:
-      return state
-        .set('password', action.password)
-        .set('currentUser', false);
     case SIGN_UP:
       return state
         .set('loading', true)
