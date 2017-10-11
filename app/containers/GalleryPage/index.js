@@ -57,9 +57,9 @@ export class GalleryPage extends React.PureComponent { // eslint-disable-line re
                     <span className='date faNo'>
                       {timeToJalaliDate(item.txCreatedDate)}
                     </span>
-                    <span className=''>
+                    {/*<span>
                       {item.subject}
-                    </span>
+                    </span>*/}
                   </Card.Meta>
                   <Card.Description>
                     {item.desc}
