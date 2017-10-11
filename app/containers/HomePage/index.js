@@ -202,9 +202,9 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
         })
     } else {
       this.setState({
-        tnxData: {...this.state.tnxData, ...{files: this.state.tnxData.files[0]}}
+        tnxData: {...this.state.tnxData, ...{files: [this.state.tnxData.files[0]]}}
       }, () => {
-        digestFile(this.state.tnxData.files)
+        digestFile(this.state.tnxData.files[0])
           .then(payload => {
             this.setState({
               tnxData: {...this.state.tnxData, ...{'hash': payload}}
@@ -239,6 +239,8 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       selectedFilesCountByType: {pdf: 0, movie: 0, jpg: 0},
       tnxData: {server: 'um', upload: true, files: []},
       fileTmp: {}
+    }, () => {
+      console.log(this.state)
     })
   }
 
