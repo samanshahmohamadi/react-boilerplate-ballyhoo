@@ -621,11 +621,9 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                             سطح داخلی یا بین‌المللی با نام خودتان ثبت شود.
                             برای اطلاعات بیشتر و یا ثبت آثار می‌توانید از لینک‌های زیر استفاده کنید.
                           </Container>
-                          <Button basic color="blue" style={{margin: '20px', width: '20%'}}><a style={{}}
-                                                                                               href="http://sabthsod.com">ثبت
-                            شد</a></Button>
-                          <Button basic color="blue" style={{margin: '20px', width: '20%'}}><a
-                            style={{color: 'white!important'}} href="http://utadoc.com">UM</a></Button>
+                          <a href="http://sabtshod.com"><Button basic color="blue" style={{margin: '20px', width: '20%'}}>ثبت
+                            شد</Button></a>
+                          <a style={{color: 'white!important'}} href="http://utadoc.com"><Button basic color="blue" style={{margin: '20px', width: '20%'}}>UM</Button></a>
                         </Grid.Column>) : (null)}
                     </Grid.Row>
                   )}

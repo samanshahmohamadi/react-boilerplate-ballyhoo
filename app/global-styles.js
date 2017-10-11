@@ -74,4 +74,8 @@ injectGlobal`
   input {
       font-family: IranSans, 'Open Sans', sans-serif!important;
   }
+  
+  a:hover {
+     color: #000!important;
+  }
 `;

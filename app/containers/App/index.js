@@ -35,7 +35,7 @@ const childrenStyle = {minHeight: '100vh', /*background: `url(${homeBackground})
 
 export function App(props) {
   return (
-    <AppWrapper>
+    <AppWrapper style={{overflowX:'hidden'}}>
       <Helmet
         titleTemplate="%s - Ballyhooawards"
         defaultTitle="Ballyhooawards"

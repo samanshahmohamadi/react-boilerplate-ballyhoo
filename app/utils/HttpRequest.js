@@ -64,15 +64,12 @@ export default class HttpRequest {
         'content-type': 'multipart/form-data'
       }
     }
-    console.log("FORM DATA" + formData)
     let url
     if (server === 'um') {
       url = Config.UMBackendAddr + '/createTnx'
     } else if (server === 'sabtshod') {
       url = Config.SabtshodBackendAddr + '/createTnx'
     }
-    console.log("URL >>>>>> " + url)
-    console.log("service >>>>>> " + server)
 
     return this.instance.post(url, formData, config)
   }

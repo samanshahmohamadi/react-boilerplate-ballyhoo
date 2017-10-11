@@ -29,7 +29,7 @@ export class GalleryPage extends React.PureComponent { // eslint-disable-line re
     this.props.getGallery()
   }
 
-  downloadTnxFile (mediaId) {
+  downloadTnxFile(mediaId) {
     this.props.downloadFile(mediaId)
   }
 
@@ -75,11 +75,16 @@ export class GalleryPage extends React.PureComponent { // eslint-disable-line re
             }
           </Card.Group>
         </div>
-      ) : (<H2 style={{position: 'absolute',
-        fontSize: '36px',
-        color: 'rgba(128, 128, 128, 0.9)',
-        right: '25%',
-        top: '25%'}}>شما هنوز هیچ اثری ثبت نکرده‌اید.</H2>)}
+      ) : (<Grid><Grid.Row verticalAlign="middle">
+        <Grid.Column width={16}>
+          <H2 style={{
+            textAlign:'center',
+            fontSize: '36px',
+            marginTop: '10%',
+            color: 'rgba(128, 128, 128, 0.9)'}}>شما هنوز هیچ اثری ثبت نکرده‌اید.</H2>
+        </Grid.Column>
+      </Grid.Row>
+      </Grid>)}
     </article>)
   }
 }
