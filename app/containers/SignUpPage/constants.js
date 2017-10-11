@@ -12,3 +12,5 @@
 export const SIGN_UP = 'boilerplate/SignUp/SIGN_UP';
 export const SIGN_UP_SUCCESS = 'boilerplate/SignUp/SIGN_UP_SUCCESS';
 export const SIGN_UP_ERROR = 'boilerplate/SignUp/SIGN_UP_ERROR';
+
+export const RESET_ERROR_LOADING = 'boilerplate/SignUp/RESET_ERROR_LOADING';

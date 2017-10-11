@@ -29,6 +29,8 @@
   "boilerplate.containers.NotFoundPage.header": "Page not found.",
 
   "boilerplate.containers.SignUpPage.error.bad_request": "Invalid input! Please check your inputs and try again.",
-  "boilerplate.containers.SignUpPage.error.im_used": "This is email is in use. If you forgot your password, try recovering your password."
+  "boilerplate.containers.SignUpPage.error.im_used": "This is email is in use. If you forgot your password, try recovering your password.",
+
+  "boilerplate.containers.SignUpPage.signup_form.title_cd_info": "Creative Director"
 
 }

@@ -12,7 +12,7 @@
 import {fromJS} from 'immutable';
 
 import {
-  SIGN_UP, SIGN_UP_SUCCESS, SIGN_UP_ERROR
+  SIGN_UP, SIGN_UP_SUCCESS, SIGN_UP_ERROR, RESET_ERROR_LOADING
 } from './constants';
 
 // The initial state of the App
@@ -33,6 +33,10 @@ function signUpReducer (state = initialState, action) {
         .set('loading', false)
         .set('error', action.errorCode);
     case SIGN_UP_SUCCESS:
+      return state
+        .set('loading', false)
+        .set('error', false);
+    case RESET_ERROR_LOADING:
       return state
         .set('loading', false)
         .set('error', false);

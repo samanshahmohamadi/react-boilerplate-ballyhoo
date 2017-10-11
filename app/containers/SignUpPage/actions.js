@@ -16,7 +16,7 @@
  */
 
 import {
-  SIGN_UP, SIGN_UP_SUCCESS, SIGN_UP_ERROR
+  SIGN_UP, SIGN_UP_SUCCESS, SIGN_UP_ERROR, RESET_ERROR_LOADING
 } from './constants';
 
 /**
@@ -48,5 +48,11 @@ export function singUpError(err) {
   return {
     type: SIGN_UP_ERROR,
     errorCode
+  };
+}
+
+export function resetErrorAndLoading() {
+  return {
+    type: RESET_ERROR_LOADING
   };
 }

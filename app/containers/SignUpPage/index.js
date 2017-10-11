@@ -6,8 +6,8 @@ import {createStructuredSelector} from 'reselect';
 import 'semantic-ui-css/semantic.min.css';
 import {Link} from 'react-router';
 
-import {makeSelectError} from './selectors';
-import {makeSelectLoading} from 'containers/App/selectors'
+import {makeSelectError, makeSelectLoading} from './selectors';
+// import {makeSelectLoading} from 'containers/App/selectors'
 import H2 from 'components/H2';
 import H3 from 'components/H3'
 import H4 from 'components/H4'
@@ -15,7 +15,7 @@ import CenteredSection from './CenteredSection';
 // import Input from './Input';
 import Section from './Section';
 import messages from './messages';
-import {signUp} from './actions';
+import {signUp, resetErrorAndLoading} from './actions';
 
 import {getCompanyActivity} from './dataHelper'
 
@@ -35,6 +35,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
   state = {formData: {email: '', password: ''}, countries: [], companyActivities: []}
 
   componentDidMount () {
+    this.props.resetErrorAndLoading()
     let countries = getCountries(true)
     let companyActivities = getCompanyActivity()
     this.setState({countries: countries, companyActivities: companyActivities})
@@ -85,7 +86,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
             <Link style={signinLinkStyle} to="/"><FormattedMessage {...messages.alreadyHaveAccount} /></Link>
           </H4>
           <Divider/>
-          <Form onSubmit={this.handleSubmit} style={loginFormStyle}>
+          <Form loading={this.props.loading} onSubmit={this.handleSubmit} style={loginFormStyle}>
             <Grid>
               <Grid.Row>
 
@@ -114,12 +115,12 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                   </Form.Field>
                   <Form.Field>
                     <label>رمز عبور</label>
-                    <input required={true} type="password" name="password" placeholder='رمز عبور'
+                    <input minLength={6} required={true} type="password" name="password" placeholder='رمز عبور'
                                                onChange={this.handleInputChange}/>
                   </Form.Field>
                   <Form.Field>
                     <label>تکرار رمز عبور</label>
-                    <input required={true} type="password" name="confirmPassword" placeholder='تکرار رمز عبور'
+                    <input minLength={6} required={true} type="password" name="confirmPassword" placeholder='تکرار رمز عبور'
                                                onChange={this.handleInputChange}/>
                   </Form.Field>
                 </Grid.Column>
@@ -176,7 +177,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                   </Form.Field>
                   <Button style={{bottom: '0', position: 'absolute'}} fluid color='green'>ثبت نام</Button>
                   {this.props.error && this.props.error !== false ? (<Message negative>
-                    <Message.Header>Error!</Message.Header>
+                    <Message.Header>خطا!</Message.Header>
                     <p><FormattedMessage {...messages[this.props.error]} /></p>
                   </Message>) : (null)}
                 </Grid.Column>
@@ -209,11 +210,14 @@ HomePage.propTypes = {
 
 export function mapDispatchToProps (dispatch) {
   return {
-    onChangeEmail: (evt) => dispatch(changeEmail(evt.target.value)),
-    onChangePassword: (evt) => dispatch(changePassword(evt.target.value)),
+    // onChangeEmail: (evt) => dispatch(changeEmail(evt.target.value)),
+    // onChangePassword: (evt) => dispatch(changePassword(evt.target.value)),
     onSubmitForm: (params) => {
       // if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(signUp(params));
+    },
+    resetErrorAndLoading: () => {
+      dispatch(resetErrorAndLoading())
     }
   };
 }

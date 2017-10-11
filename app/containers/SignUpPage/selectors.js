@@ -21,10 +21,15 @@ const makeSelectSignupParams = () => createSelector(
   (signUpState) => signUpState.get('params')
 );
 
+const makeSelectLoading = () => createSelector(
+  selectSignUp,
+  (signUpState) => signUpState.get('loading')
+);
 
 export {
   selectSignUp,
   makeSelectEmail,
   makeSelectError,
-  makeSelectSignupParams
+  makeSelectSignupParams,
+  makeSelectLoading
 };

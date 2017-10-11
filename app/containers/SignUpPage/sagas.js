@@ -34,7 +34,7 @@ export function* signUp () {
     const response = yield call(fetchSignUp, params);
     // yield put(reposLoaded(repos, username));
     yield put(singUpSuccess(response))
-    yi
+    yield put(push('/'))
   } catch (err) {
     yield put(singUpError(err));
   }
