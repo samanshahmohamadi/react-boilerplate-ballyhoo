@@ -51,7 +51,7 @@ export class GalleryPage extends React.PureComponent { // eslint-disable-line re
                 <Icon style={{margin: '10px auto 10px auto'}} color='blue' name='film' size='massive'/>
                 <Card.Content>
                   <Card.Header>
-                    {item.name}
+                    {item.name ? item.name : ''}
                   </Card.Header>
                   <Card.Meta>
                     <span className='date faNo'>
