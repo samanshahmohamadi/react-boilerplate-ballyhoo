@@ -75,7 +75,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     createTnxForm: {
       plan: [{
         text: 'کمپین پلاس',
-        value: "campaign+",
+        value: "campaignplus",
         fee: 2047000,
         filesCount: 4,
         fileTypesIcons: ['film', 'film', 'film', 'file pdf outline']
@@ -84,13 +84,13 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
         value: 'campaign', fee: 409500, filesCount: 1, fileTypesIcons: ['file pdf outline']
       }, {
         text: 'تک فریم',
-        value: 'singleFrame',
+        value: 'singleframe',
         fee: 136500,
         filesCount: 1,
         fileTypesIcons: ['file image outline']
       }, {
         text: 'فیلم',
-        value: 'film',
+        value: 'video',
         fee: 1365000,
         filesCount: 1, fileTypesIcons: ['film']
       }]
@@ -164,7 +164,6 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
   }
 
   handleCreateTnx = () => {
-    let server = this.state.tnxData.server
     this.props.onCreateTnx()
     // this.props.onSubmitCreateTnxForm(this.state.tnxData)
     if (this.state.tnxData.files.length > 1) {
@@ -211,8 +210,11 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
             }, () => {
               let fd = new FormData();
               fd.append("token", this.props.user.token)
+
               Object.keys(this.state.tnxData).map(function (k) {
                 if (!this.state.tnxData.upload && k === 'files') {
+                } else if (this.state.tnxData.upload && k === 'files') {
+                  fd.append(k, this.state.tnxData[k][0])
                 } else {
                   fd.append(k, this.state.tnxData[k])
                 }
@@ -240,7 +242,6 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       tnxData: {server: 'um', upload: true, files: []},
       fileTmp: {}
     }, () => {
-      console.log(this.state)
     })
   }
 
@@ -273,7 +274,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       this.props.onSelectFileError('wrong.field')
       return
     }
-    if (this.state.tnxData.type === 'campaign+') {
+    if (this.state.tnxData.type === 'campaignplus') {
       if (fileType === 'application/pdf' || fileType === 'video/mp4') {
         if (fileType === 'application/pdf') {
           if (size > 20) {
@@ -325,7 +326,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
         this.props.onSelectFileError('require.pdf')
         return
       }
-    } else if (this.state.tnxData.type === 'singleFrame') {
+    } else if (this.state.tnxData.type === 'singleframe') {
       if (fileType === 'application/pdf' || fileType === 'image/jpg' || fileType === 'image/jpeg') {
         if (size > 5) {
           this.props.onSelectFileError('size_limit.5')
@@ -441,7 +442,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                             <Popup
                               wide
                               inverted
-                              trigger={<Button style={{marginBottom: '20px'}} value="campaign+"
+                              trigger={<Button style={{marginBottom: '20px'}} value="campaignplus"
                                                onClick={this.selectPlan} fluid
                                                color="yellow">
                                 کمپین پلاس
@@ -461,7 +462,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                             <Popup
                               wide
                               inverted
-                              trigger={<Button style={{marginBottom: '20px'}} value="singleFrame"
+                              trigger={<Button style={{marginBottom: '20px'}} value="singleframe"
                                                onClick={this.selectPlan} fluid
                                                color="yellow">
                                 تک فریم
@@ -472,7 +473,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                               wide
                               inverted
 
-                              trigger={<Button style={{marginBottom: '20px'}} value="film" onClick={this.selectPlan}
+                              trigger={<Button style={{marginBottom: '20px'}} value="video" onClick={this.selectPlan}
                                                fluid
                                                color="yellow">
                                 فیلم
@@ -588,9 +589,9 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                                     صورت‌حساب
                                   </Card.Header>
                                   <Card.Meta>
-        {/*<span className='date'>
-          {this.state.planName}
-        </span>*/}
+                                    {/*<span className='date'>
+                                     {this.state.planName}
+                                     </span>*/}
                                   </Card.Meta>
                                   <Card.Description className={'faNo'}>
 
@@ -612,18 +613,23 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                           </Form>
                         </Container>
                       </Grid.Column>
-                      <Grid.Column width={8}>
-                        <Container textAlign={'center'}>
-                            با هدف حمایت از حقوق مالکیت معنوی، و با همکاری مجموعه‌های «ثبت شد» و «UM»، امکان آن فراهم آمده است تا در کنار بخش ارزیابی «Ballyhoo Awards» و به عنوان یک بخش جانبی، آثار شما در دو سطح داخلی یا بین‌المللی با نام خودتان ثبت شود.
+                      {this.props.isAuthenticated === true ?
+                        (<Grid.Column width={8}>
+                          <Container textAlign={'center'}>
+                            با هدف حمایت از حقوق مالکیت معنوی، و با همکاری مجموعه‌های «ثبت شد» و «UM»، امکان آن فراهم
+                            آمده است تا در کنار بخش ارزیابی «Ballyhoo Awards» و به عنوان یک بخش جانبی، آثار شما در دو
+                            سطح داخلی یا بین‌المللی با نام خودتان ثبت شود.
                             برای اطلاعات بیشتر و یا ثبت آثار می‌توانید از لینک‌های زیر استفاده کنید.
-                        </Container>
-                        <Button basic color="blue" style={{margin: '20px',width:'20%'}}><a style={{}} href="http://sabthsod.com">ثبت شد</a></Button>
-                        <Button basic color="blue" style={{margin: '20px',width:'20%'}}><a style={{color:'white!important'}} href="http://utadoc.com">UM</a></Button>
-                      </Grid.Column>
+                          </Container>
+                          <Button basic color="blue" style={{margin: '20px', width: '20%'}}><a style={{}}
+                                                                                               href="http://sabthsod.com">ثبت
+                            شد</a></Button>
+                          <Button basic color="blue" style={{margin: '20px', width: '20%'}}><a
+                            style={{color: 'white!important'}} href="http://utadoc.com">UM</a></Button>
+                        </Grid.Column>) : (null)}
                     </Grid.Row>
                   )}
               </Grid>
-
             )}
 
         </CenteredSection>

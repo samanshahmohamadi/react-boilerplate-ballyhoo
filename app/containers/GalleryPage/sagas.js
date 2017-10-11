@@ -49,7 +49,6 @@ export function* onGetGallery() {
 }
 
 function fetchDownloadFile(params) {
-  console.log('media', params)
   window.open("http://localhost:8080"+ '/downloadTnxFile/' + params.token + '&' + params.mediaId)
   // return new HttpRequest().get('/downloadTnxFile/' + params.token + '&' + params.mediaId, {})
 }

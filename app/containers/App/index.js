@@ -20,8 +20,9 @@ import {createStructuredSelector} from 'reselect';
 import {makeSelectUser, makeSelectIsAuthenticated} from './selectors';
 import {connect} from 'react-redux';
 
-import {signOut, signOutSuccess, signOutError } from './actions';
+import {signOut } from './actions';
 
+import {browserHistory} from 'react-router';
 
 const AppWrapper = styled.div`
   margin: 0 auto;
@@ -63,7 +64,10 @@ const mapStateToProps = createStructuredSelector({
 
 export function mapDispatchToProps (dispatch) {
   return {
-    onSignOut: (evt) => dispatch(signOut()),
+    onSignOut: (evt) => {
+      dispatch(signOut())
+      browserHistory.push('/')
+    },
   };
 }
 

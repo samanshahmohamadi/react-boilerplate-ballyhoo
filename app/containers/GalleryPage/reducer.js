@@ -24,7 +24,6 @@ const initialState = fromJS({
 });
 
 function galleryReducer(state = initialState, action) {
-  console.log(action)
   switch (action.type) {
     case RESET_ERROR_LOADING:
       return state

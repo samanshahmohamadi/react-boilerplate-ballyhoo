@@ -30,7 +30,6 @@ export class GalleryPage extends React.PureComponent { // eslint-disable-line re
   }
 
   downloadTnxFile (mediaId) {
-    console.log(mediaId)
     this.props.downloadFile(mediaId)
   }
 
@@ -103,7 +102,6 @@ export function mapDispatchToProps(dispatch) {
       dispatch(getGallery())
     },
     downloadFile: (mediaId) => {
-      console.log(">>>>>>>>>>>>>>>>>>>>" + mediaId)
       dispatch(downloadFile(mediaId))
     }
   };
