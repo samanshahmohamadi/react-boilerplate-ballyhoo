@@ -392,11 +392,12 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
               <H4>
                 <Link style={signupLinkStyle}
                       to="/signup">{this.props.intl.formatMessage({...messages.notSignedUpYetHeader})}</Link>
-              </H4></div>) : (<div><H2>
+              </H4></div>) : (<div><H2 style={{fontSize:'36px'}}>
               اثر خود را ثبت کنید
             </H2>{this.state.tnxData.type ? <Button style={{marginBottom: '20px'}}
                                                     disabled={this.props.loading}
                                                     onClick={this.deselectPlan}
+                                                    secondary={true}
                                                     color="blue">بازگشت</Button> : (null)}</div>)}
           {this.props.isAuthenticated !== true ?
             (<Grid>
@@ -613,17 +614,21 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                           </Form>
                         </Container>
                       </Grid.Column>
+                      <Grid.Column width={2}>
+                      </Grid.Column>
                       {this.props.isAuthenticated === true ?
-                        (<Grid.Column width={8}>
+                        (<Grid.Column width={6}>
                           <Container textAlign={'center'}>
+                            <Message style={{lineHeight:'2.5'}} info>
                             با هدف حمایت از حقوق مالکیت معنوی، و با همکاری مجموعه‌های «ثبت شد» و «UM»، امکان آن فراهم
                             آمده است تا در کنار بخش ارزیابی «Ballyhoo Awards» و به عنوان یک بخش جانبی، آثار شما در دو
                             سطح داخلی یا بین‌المللی با نام خودتان ثبت شود.
                             برای اطلاعات بیشتر و یا ثبت آثار می‌توانید از لینک‌های زیر استفاده کنید.
+                            </Message>
                           </Container>
-                          <a href="http://sabtshod.com"><Button basic color="blue" style={{margin: '20px', width: '20%'}}>ثبت
+                          <a href="http://sabtshod.com"><Button color="blue" style={{margin: '20px', width: '20%'}}>ثبت
                             شد</Button></a>
-                          <a style={{color: 'white!important'}} href="http://utadoc.com"><Button basic color="blue" style={{margin: '20px', width: '20%'}}>UM</Button></a>
+                          <a style={{color: 'white!important'}} href="http://utadoc.com"><Button color="blue" style={{margin: '20px', width: '20%'}}>UM</Button></a>
                         </Grid.Column>) : (null)}
                     </Grid.Row>
                   )}
