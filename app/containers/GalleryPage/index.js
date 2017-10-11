@@ -6,70 +6,36 @@ import {createStructuredSelector} from 'reselect';
 import 'semantic-ui-css/semantic.min.css';
 import {Link} from 'react-router';
 
-import {makeSelectError, makeSelectLoading} from './selectors';
-// import {makeSelectLoading} from 'containers/App/selectors'
+import {makeSelectError, makeSelectLoading, makeSelectGallery} from './selectors';
 import H2 from 'components/H2';
 import H3 from 'components/H3'
 import H4 from 'components/H4'
 import CenteredSection from './CenteredSection';
-// import Input from './Input';
 import Section from './Section';
 import messages from './messages';
-import {signUp, resetErrorAndLoading} from './actions';
+import {resetErrorAndLoading, getGallery, downloadFile} from './actions';
 
-import {getCompanyActivity} from './dataHelper'
+import {timeToJalaliDate} from '../../utils/Utils'
 
-
-import {Button, Checkbox, Form, Grid, Dropdown, Input, Message, Divider} from 'semantic-ui-react';
+import {Button, Checkbox, Form, Grid, Dropdown, Input, Message, Divider, Icon, Card} from 'semantic-ui-react';
 
 const mainStyle = {padding: '2% 4%'};
-const loginFormStyle = {padding: '10px'}
-const signinLinkStyle = {color: 'rgba(255, 179, 0,1.0)'}
 
-import {getCountries} from '../../utils/country'
+export class GalleryPage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+  state = {}
 
-export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  /**
-   * when initial state username is not null, submit the form to load repos
-   */
-  state = {formData: {email: '', password: ''}, countries: [], companyActivities: []}
-
-  componentDidMount () {
+  componentDidMount() {
     this.props.resetErrorAndLoading()
-    let countries = getCountries(true)
-    let companyActivities = getCompanyActivity()
-    this.setState({countries: countries, companyActivities: companyActivities})
+    this.props.getGallery()
   }
 
-  handleInputChange = (e) => {
-    this.setState({
-      formData: {...this.state.formData, ...{[e.target.name]: e.target.value}}
-    }, () => {
-    })
+  downloadTnxFile (mediaId) {
+    console.log(mediaId)
+    this.props.downloadFile(mediaId)
   }
 
-  handleDropdownChange = (e, data) => {
-    const {name, value} = data
-    this.setState({
-      formData: {...this.state.formData, ...{[name]: value}}
-    }, () => {
-    })
-  }
-
-  handleSubmit = () => {
-    // const {email, password, submittedEmail, submittedPassword} = this.state
-    // this.setState({submittedEmail: email, submittedPassword: password})
-    this.props.onSubmitForm(this.state.formData)
-  }
-
-  render () {
-    const {email, password} = this.state
-    const {loading, error, repos} = this.props;
-    const reposListProps = {
-      loading,
-      error,
-      repos
-    };
+  render() {
+    const {loading, error} = this.props;
     return (<article>
       <Helmet
         title="SignUp"
@@ -77,156 +43,77 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
           {name: 'description', content: 'Ballyhooawards'}
         ]}
       />
-      <div style={mainStyle}>
-        <CenteredSection>
-          <H2>
-            <FormattedMessage {...messages.startProjectHeader} />
-          </H2>
-          <H4>
-            <Link style={signinLinkStyle} to="/"><FormattedMessage {...messages.alreadyHaveAccount} /></Link>
-          </H4>
-          <Divider/>
-          <Form loading={this.props.loading} onSubmit={this.handleSubmit} style={loginFormStyle}>
-            <Grid>
-              <Grid.Row>
-
-                <Grid.Column width={5}>
-                  <H3><FormattedMessage {...messages.accountInfo}/></H3>
-                  <Form.Field>
-                    <label>ایمیل</label>
-                    <input required={true} name="email" placeholder='ایمیل' onChange={this.handleInputChange}/>
-                  </Form.Field>
-                  <Form.Field>
-                    <label>نام</label>
-                    <input required={true} name="name" placeholder='نام' onChange={this.handleInputChange}/>
-                  </Form.Field>
-                  <Form.Field>
-                    <label>نام خانوادگی</label>
-                    <input required={true} name="lastName" placeholder='نام خانوادگی'
-                                               onChange={this.handleInputChange}/>
-                  </Form.Field>
-                  <Form.Field>
-                    <label>سمت</label>
-                    <input required={true} name="job" placeholder='سمت' onChange={this.handleInputChange}/>
-                  </Form.Field>
-                  <Form.Field>
-                    <label>شماره تلفن</label>
-                    <input required={true} name="phone" placeholder='شماره تلفن' onChange={this.handleInputChange}/>
-                  </Form.Field>
-                  <Form.Field>
-                    <label>رمز عبور</label>
-                    <input minLength={6} required={true} type="password" name="password" placeholder='رمز عبور'
-                                               onChange={this.handleInputChange}/>
-                  </Form.Field>
-                  <Form.Field>
-                    <label>تکرار رمز عبور</label>
-                    <input minLength={6} required={true} type="password" name="confirmPassword" placeholder='تکرار رمز عبور'
-                                               onChange={this.handleInputChange}/>
-                  </Form.Field>
-                </Grid.Column>
-                <Grid.Column width={5}>
-                  <H3><FormattedMessage {...messages.companyInfo}/></H3>
-                  <Form.Field>
-                    <label>کشور</label>
-                    <Dropdown style={{direction:'ltr'}} name="companyCountry" onChange={this.handleDropdownChange} placeholder='کشور' fluid
-                              search selection options={this.state.countries}/>
-                  </Form.Field>
-                  <Form.Field>
-                    <label>نوع فعالیت</label>
-                    <Dropdown style={{direction:'ltr'}} name="companyActivity" onChange={this.handleDropdownChange} placeholder='نوع فعالیت'
-                              fluid selection options={this.state.companyActivities}/>
-                  </Form.Field>
-                  <Form.Field>
-                    <label>نام شرکت</label>
-                    <input name="companyName" placeholder='نام شرکت' onChange={this.handleInputChange}/>
-                  </Form.Field>
-                  <Form.Field>
-                    <label>آدرس پستی</label>
-                    <input name="postalAddress" placeholder='آدرس پستی' onChange={this.handleInputChange}/>
-                  </Form.Field>
-                  <Form.Field>
-                    <label>شهر</label>
-                    <input name="city" placeholder='شهر' onChange={this.handleInputChange}/>
-                  </Form.Field>
-                  <Form.Field>
-                    <label>کد پستی</label>
-                    <input name="postCode" placeholder='کد پستی' onChange={this.handleInputChange}/>
-                  </Form.Field>
-                  <Form.Field>
-                    <label>تلفن</label>
-                    <input name="companyPhone" placeholder='تلفن' onChange={this.handleInputChange}/>
-                  </Form.Field>
-                  <Form.Field>
-                    <label>وبسایت</label>
-                    <Input style={{direction:'ltr', fontFamily:'Open Sans'}} label='http://' name="companyWebsite" placeholder='example.com'
-                           onChange={this.handleInputChange}/>
-                    {/*<input name="companyWebsite" placeholder='Company Website' onChange={this.handleInputChange}/>*/}
-                  </Form.Field>
-                </Grid.Column>
-                <Grid.Column width={5}>
-                  <H3><FormattedMessage {...messages.creativeDirectorInfo}/></H3>
-                  <Form.Field>
-                    <label>نام</label>
-                    <input required={true} name="cdName" placeholder='نام'
-                                               onChange={this.handleInputChange}/>
-                  </Form.Field>
-                  <Form.Field>
-                    <label>نام خانوادگی</label>
-                    <input required={true} name="cdLastName" placeholder='نام خانوادگی'
-                                               onChange={this.handleInputChange}/>
-                  </Form.Field>
-                  <Button style={{bottom: '0', position: 'absolute'}} fluid color='green'>ثبت نام</Button>
-                  {this.props.error && this.props.error !== false ? (<Message negative>
-                    <Message.Header>خطا!</Message.Header>
-                    <p><FormattedMessage {...messages[this.props.error]} /></p>
-                  </Message>) : (null)}
-                </Grid.Column>
-
-              </Grid.Row>
-            </Grid>
-          </Form>
-        </CenteredSection>
-      </div>
+      {this.props.gallery ? (
+        <div style={mainStyle}>
+          <Card.Group itemsPerRow={4}>
+            {Object.keys(this.props.gallery).map(function (k) {
+              let item = this.props.gallery[k]
+              return <Card key={k}>
+                <Icon style={{margin: '10px auto 10px auto'}} color='blue' name='film' size='massive'/>
+                <Card.Content>
+                  <Card.Header>
+                    {item.name}
+                  </Card.Header>
+                  <Card.Meta>
+                    <span className='date faNo'>
+                      {timeToJalaliDate(item.txCreatedDate)}
+                    </span>
+                    <span className=''>
+                      {item.subject}
+                    </span>
+                  </Card.Meta>
+                  <Card.Description>
+                    {item.desc}
+                  </Card.Description>
+                </Card.Content>
+                <Card.Content style={{textAlign: 'center'}} extra>
+                  {item.fileId ? (
+                    <Button onClick={() => this.downloadTnxFile(item.fileId)} basic color="blue">دانلود فایل</Button>
+                  ) : (null)}
+                </Card.Content>
+              </Card>
+            }, this)
+            }
+          </Card.Group>
+        </div>
+      ) : (null)}
     </article>)
   }
 }
 
-HomePage.propTypes = {
-  loading: React.PropTypes.bool,
-  error: React.PropTypes.any,
-  repos: React.PropTypes.oneOfType([
-    React.PropTypes.array,
+GalleryPage.propTypes = {
+  loading: React.PropTypes.oneOfType([
+    React.PropTypes.string,
     React.PropTypes.bool
   ]),
-  onSubmitForm: React.PropTypes.func,
-  username: React.PropTypes.string,
+  error: React.PropTypes.any,
+
   user: React.PropTypes.oneOfType([
     React.PropTypes.object,
     React.PropTypes.bool
   ]),
-  onbackendAddr: React.PropTypes.func,
-  onChangePassword: React.PropTypes.func
 };
 
-export function mapDispatchToProps (dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
-    // onChangeEmail: (evt) => dispatch(changeEmail(evt.target.value)),
-    // onChangePassword: (evt) => dispatch(changePassword(evt.target.value)),
-    onSubmitForm: (params) => {
-      // if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      dispatch(signUp(params));
-    },
     resetErrorAndLoading: () => {
       dispatch(resetErrorAndLoading())
+    },
+    getGallery: () => {
+      dispatch(getGallery())
+    },
+    downloadFile: (mediaId) => {
+      console.log(">>>>>>>>>>>>>>>>>>>>" + mediaId)
+      dispatch(downloadFile(mediaId))
     }
   };
 }
 
 const mapStateToProps = createStructuredSelector({
-  // repos: makeSelectRepos(),
   loading: makeSelectLoading(),
-  error: makeSelectError()
+  error: makeSelectError(),
+  gallery: makeSelectGallery()
 });
 
 // Wrap the component to inject dispatch and state into it
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(GalleryPage);

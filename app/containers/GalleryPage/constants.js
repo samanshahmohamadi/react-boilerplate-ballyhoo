@@ -9,8 +9,13 @@
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
 
-export const SIGN_UP = 'boilerplate/SignUp/SIGN_UP';
-export const SIGN_UP_SUCCESS = 'boilerplate/SignUp/SIGN_UP_SUCCESS';
-export const SIGN_UP_ERROR = 'boilerplate/SignUp/SIGN_UP_ERROR';
 
-export const RESET_ERROR_LOADING = 'boilerplate/SignUp/RESET_ERROR_LOADING';
+export const RESET_ERROR_LOADING = 'boilerplate/Gallery/RESET_ERROR_LOADING';
+
+export const GET_GALLERY = 'boilerplate/Gallery/GET_GALLERY';
+export const GET_GALLERY_SUCCESS = 'boilerplate/Gallery/GET_GALLERY_SUCCESS';
+export const GET_GALLERY_ERROR = 'boilerplate/Gallery/GET_GALLERY_ERROR';
+
+export const DOWNLOAD_FILE = 'boilerplate/Gallery/DOWNLOAD_FILE';
+export const DOWNLOAD_FILE_SUCCESS = 'boilerplate/Gallery/DOWNLOAD_FILE_SUCCESS';
+export const DOWNLOAD_FILE_ERROR = 'boilerplate/Gallery/DOWNLOAD_FILE_ERROR';

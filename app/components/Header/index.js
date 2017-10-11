@@ -29,13 +29,16 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
   render() {
 
     return (
-      <div style={{background:'#fbbd08', paddingRight:'10%', paddingLeft:'10%'}}>
+      <div style={{background:'#fbbd08', paddingRight:'5%', paddingLeft:'5%'}}>
         {/* <A href="https://twitter.com/mxstbr">
          <Img src={Banner} alt="react-boilerplate - Logo" />
          </A>*/}
         <NavBar>
           <HeaderLink style={{float:'right'}} to="/">
             <FormattedMessage {...messages.home} />
+          </HeaderLink>
+          <HeaderLink style={{float:'right'}} to="/gallery">
+            گالری
           </HeaderLink>
           {this.props.isAuthenticated === true ?
             (

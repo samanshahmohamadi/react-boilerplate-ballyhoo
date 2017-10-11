@@ -4,32 +4,32 @@
 
 import { createSelector } from 'reselect';
 
-const selectSignUp = (state) => state.get('signup');
-
-const makeSelectEmail = () => createSelector(
-  selectSignUp,
-  (signUpState) => signUpState.get('email')
-);
+const selectGallery = (state) => state.get('gallery');
 
 const makeSelectError = () => createSelector(
-  selectSignUp,
-  (signUpState) => signUpState.get('error')
-);
-
-const makeSelectSignupParams = () => createSelector(
-  selectSignUp,
-  (signUpState) => signUpState.get('params')
+  selectGallery,
+  (galleryState) => galleryState.get('error')
 );
 
 const makeSelectLoading = () => createSelector(
-  selectSignUp,
-  (signUpState) => signUpState.get('loading')
+  selectGallery,
+  (galleryState) => galleryState.get('loading')
+);
+
+const makeSelectGallery = () => createSelector(
+  selectGallery,
+  (galleryState) => galleryState.get('gallery')
+);
+
+const makeSelectMediaId = () => createSelector(
+  selectGallery,
+  (galleryState) => galleryState.get('mediaId')
 );
 
 export {
-  selectSignUp,
-  makeSelectEmail,
+  selectGallery,
   makeSelectError,
-  makeSelectSignupParams,
-  makeSelectLoading
+  makeSelectLoading,
+  makeSelectGallery,
+  makeSelectMediaId
 };

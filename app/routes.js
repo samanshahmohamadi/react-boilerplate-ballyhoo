@@ -63,6 +63,28 @@ export default function createRoutes (store) {
         importModules.catch(errorLoading);
       }
     }, {
+      path: '/gallery',
+      name: 'gallery',
+      onEnter: requireAuth(store),
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/GalleryPage/reducer'),
+          import('containers/GalleryPage/sagas'),
+          import('containers/GalleryPage')
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('gallery', reducer.default);
+          injectSagas(sagas.default);
+
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      }
+    }, {
       path: '/features',
       name: 'features',
       getComponent(nextState, cb) {

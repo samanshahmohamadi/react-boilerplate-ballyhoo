@@ -16,7 +16,7 @@
  */
 
 import {
-  SIGN_UP, SIGN_UP_SUCCESS, SIGN_UP_ERROR, RESET_ERROR_LOADING
+  GET_GALLERY, GET_GALLERY_SUCCESS, GET_GALLERY_ERROR, RESET_ERROR_LOADING, DOWNLOAD_FILE, DOWNLOAD_FILE_SUCCESS, DOWNLOAD_FILE_ERROR
 } from './constants';
 
 /**
@@ -27,32 +27,48 @@ import {
  * @return {object}    An action object with a type of CHANGE_USERNAME
  */
 
-export function signUp(params) {
+export function getGallery() {
   return {
-    type: SIGN_UP,
-    params
+    type: GET_GALLERY
   };
 }
 
-export function singUpSuccess(response) {
+export function getGalleryError() {
   return {
-    type: SIGN_UP_SUCCESS,
+    type: GET_GALLERY_ERROR
+  };
+}
+
+export function getGallerySuccess(response) {
+  return {
+    type: GET_GALLERY_SUCCESS,
     response
-  };
-}
-
-export function singUpError(err) {
-  let errorCode
-  if (err.response) errorCode = err.response.status
-  else if (err.message) errorCode = err.message
-  return {
-    type: SIGN_UP_ERROR,
-    errorCode
   };
 }
 
 export function resetErrorAndLoading() {
   return {
     type: RESET_ERROR_LOADING
+  };
+}
+
+export function downloadFile(mediaId) {
+  return {
+    type: DOWNLOAD_FILE,
+    mediaId
+  };
+}
+
+export function downloadFileError(err) {
+  return {
+    type: DOWNLOAD_FILE_ERROR,
+    err
+  };
+}
+
+export function downloadFileSuccess(response) {
+  return {
+    type: DOWNLOAD_FILE_SUCCESS,
+    response
   };
 }

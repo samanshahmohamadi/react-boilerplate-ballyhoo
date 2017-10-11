@@ -2,6 +2,9 @@
  * Created by saman on 10/10/17.
  */
 
+import MomentJal from 'moment-jalaali'
+
+
 export const numberWithCommas = (x) => {
   return (x === null || x===undefined) ? 0 : x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -20,4 +23,9 @@ export const getVideoDuration = (file) => {
     }
   })
   video.src = URL.createObjectURL(file);
+}
+
+export const timeToJalaliDate = (t) => {
+  if (t) return MomentJal.unix(t / 1000).format('HH:MM:SS - jYYYY/jM/jD')
+  else return ''
 }

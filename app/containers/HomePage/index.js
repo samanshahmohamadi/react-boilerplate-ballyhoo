@@ -46,7 +46,7 @@ import {
 } from './selectors';
 
 import {
-  Button, Card, Checkbox, Container, Divider, Dropdown, Form, Grid, Icon, Label, Message, Popup, Radio,
+  Button, Card, Checkbox, Container, Divider, Dropdown, Form, Grid, Header, Icon, Label, Message, Popup, Radio,
   TextArea
 } from 'semantic-ui-react';
 
@@ -397,13 +397,13 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                                                     disabled={this.props.loading}
                                                     onClick={this.deselectPlan}
                                                     color="blue">بازگشت</Button> : (null)}</div>)}
-          <Grid>
-            <Grid.Row>
-              <Grid.Column width={4}>
-              </Grid.Column>
-              <Grid.Column width={8} style={loginFormContainerStyle}>
-                {this.props.isAuthenticated !== true ?
-                  (<div><Form loading={this.props.loading} onSubmit={this.handleLogin} style={loginFormStyle}>
+          {this.props.isAuthenticated !== true ?
+            (<Grid>
+              <Grid.Row>
+                <Grid.Column width={4}>
+                </Grid.Column>
+                <Grid.Column width={8} style={loginFormContainerStyle}>
+                  <div><Form loading={this.props.loading} onSubmit={this.handleLogin} style={loginFormStyle}>
                     {/*<H3 style={formTitleStyle}>Sign-up</H3>*/}
                     <Form.Field>
                       <label>ایمیل</label>
@@ -418,11 +418,23 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                   </Form>{this.props.error && this.props.error !== false ? (<Message negative>
                     <Message.Header>خطا!</Message.Header>
                     <p><FormattedMessage {...messages['signin.' + this.props.error]} /></p>
-                  </Message>) : (null)}</div>) : (
-                    <Container>
-                      <Divider />
-                      {!this.state.tnxData.type ?
-                        (<div>
+                  </Message>) : (null)}</div>
+                </Grid.Column>
+                <Grid.Column width={4}>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>) : (
+
+              <Grid>
+
+                {!this.state.tnxData.type ?
+                  (<Grid.Row>
+                      <Grid.Column width={4}>
+                      </Grid.Column>
+                      <Grid.Column width={8}>
+                        <Container>
+                          <Divider />
+                          <div>
                             <H4>
                               لطفا با توجه به نوع اثر خود یکی از طرح‌ها را انتخاب کنید
                             </H4>
@@ -467,12 +479,18 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                               </Button>}
                               content='۱ عدد فیلم mp4 حداکثر ۱۰۰ ثانیه و حجم حداکثر ۲۰ مگابایت'
                             />
+
                             {this.props.success && this.props.success !== false ? (<Message positive>
                               <Message.Header>درخواست با موفقیت انجام شد.</Message.Header>
                               <p><FormattedMessage {...messages[this.props.success]} /></p>
                             </Message>) : (null)}
                           </div>
-                        ) : (
+                        </Container></Grid.Column><Grid.Column width={4}>
+                    </Grid.Column></Grid.Row>
+                  ) : (
+                    <Grid.Row>
+                      <Grid.Column textAlign="center" width={8}>
+                        <Container>
                           <Form loading={this.props.loading} onSubmit={this.handleCreateTnx} style={loginFormStyle}>
                             {/*<H3 style={formTitleStyle}>Sign-up</H3>*/}
                             {/*<Form.Field>
@@ -570,9 +588,9 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                                     صورت‌حساب
                                   </Card.Header>
                                   <Card.Meta>
-        <span className='date'>
+        {/*<span className='date'>
           {this.state.planName}
-        </span>
+        </span>*/}
                                   </Card.Meta>
                                   <Card.Description className={'faNo'}>
 
@@ -592,14 +610,21 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                             </Form.Field>
                             <Button fluid color={'green'}>ارسال</Button>
                           </Form>
-                        )}
-                    </Container>
+                        </Container>
+                      </Grid.Column>
+                      <Grid.Column width={8}>
+                        <Container textAlign={'center'}>
+                            با هدف حمایت از حقوق مالکیت معنوی، و با همکاری مجموعه‌های «ثبت شد» و «UM»، امکان آن فراهم آمده است تا در کنار بخش ارزیابی «Ballyhoo Awards» و به عنوان یک بخش جانبی، آثار شما در دو سطح داخلی یا بین‌المللی با نام خودتان ثبت شود.
+                            برای اطلاعات بیشتر و یا ثبت آثار می‌توانید از لینک‌های زیر استفاده کنید.
+                        </Container>
+                        <Button basic color="blue" style={{margin: '20px',width:'20%'}}><a style={{}} href="http://sabthsod.com">ثبت شد</a></Button>
+                        <Button basic color="blue" style={{margin: '20px',width:'20%'}}><a style={{color:'white!important'}} href="http://utadoc.com">UM</a></Button>
+                      </Grid.Column>
+                    </Grid.Row>
                   )}
-              </Grid.Column>
-              <Grid.Column width={4}>
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
+              </Grid>
+
+            )}
 
         </CenteredSection>
         {/*<Section>

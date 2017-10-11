@@ -9,42 +9,42 @@ Config.UMBackendAddr = 'http://utadoc.com'
 Config.SabtshodBackendAddr = 'http://sabtshod.com'
 
 export default class HttpRequest {
-	constructor() {
-		this.instance = axios.create()
-		this.instance.defaults.headers['Content-Type'] = undefined
-	}
+  constructor() {
+    this.instance = axios.create()
+    this.instance.defaults.headers['Content-Type'] = undefined
+  }
 
-	get(url, params) {
-		return this.instance.get(url, {
-			params: params
-		})
-			.then(payload => {
-				return payload
-			})
-			.catch(err => {
-			  console.error(err)
-				// if Unauthorized
-				/*if (err.response.status === 401 || err.response.status === 511) {
-					return new Promise(() => {
-						store.dispatch({
-							type: 'LOGGED_OUT',
-							payload: {}
-						})
-						localStorage.clear()
-						return browserHistory.push('/')
-					})*/
-				/*} else {
-					throw new Error(err.response.status)
-				}*/
-			})
-	}
+  get(url, params) {
+    return this.instance.get(Config.UMBackendAddr + url, {
+      params: params
+    })
+      .then(payload => {
+        return payload
+      })
+      .catch(err => {
+        console.error(err)
+        // if Unauthorized
+        /*if (err.response.status === 401 || err.response.status === 511) {
+         return new Promise(() => {
+         store.dispatch({
+         type: 'LOGGED_OUT',
+         payload: {}
+         })
+         localStorage.clear()
+         return browserHistory.push('/')
+         })*/
+        /*} else {
+         throw new Error(err.response.status)
+         }*/
+      })
+  }
 
   post(url, params, config = null) {
     let urlParams = new URLSearchParams();
     for (let k in params) urlParams.append(k, params[k])
     return this.instance.post(Config.UMBackendAddr + url, urlParams, config)
       .then(payload => {
-        if (payload.status !== 200) throw new Error (payload.status)
+        if (payload.status !== 200) throw new Error(payload.status)
         return payload
       })
       .catch(error => {
@@ -58,16 +58,16 @@ export default class HttpRequest {
       })
   }
 
-	postFile(formData, server) {
-		const config = {
-			headers: {
-				'content-type': 'multipart/form-data'
-			}
-		}
-		console.log("FORM DATA" + formData)
+  postFile(formData, server) {
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    }
+    console.log("FORM DATA" + formData)
     let url
     if (server === 'um') {
-		  url = Config.UMBackendAddr + '/createTnx'
+      url = Config.UMBackendAddr + '/createTnx'
     } else if (server === 'sabtshod') {
       url = Config.SabtshodBackendAddr + '/createTnx'
     }
@@ -75,26 +75,26 @@ export default class HttpRequest {
     console.log("service >>>>>> " + server)
 
     return this.instance.post(url, formData, config)
-	}
+  }
 
-	postUserDocs(url, formData) {
-		return this.instance.post(url, formData)
-			.then(payload => {
-				return payload
-			})
-			.catch(err => {
-				if (err.response.status === 401 || err.response.status === 511) {
-					return new Promise(() => {
-						store.dispatch({
-							type: 'LOGGED_OUT',
-							payload: {}
-						})
-						localStorage.clear()
-						return browserHistory.push('/')
-					})
-				}
-				return err
-			})
-	}
+  postUserDocs(url, formData) {
+    return this.instance.post(url, formData)
+      .then(payload => {
+        return payload
+      })
+      .catch(err => {
+        if (err.response.status === 401 || err.response.status === 511) {
+          return new Promise(() => {
+            store.dispatch({
+              type: 'LOGGED_OUT',
+              payload: {}
+            })
+            localStorage.clear()
+            return browserHistory.push('/')
+          })
+        }
+        return err
+      })
+  }
 
 }
