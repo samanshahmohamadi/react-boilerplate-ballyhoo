@@ -33,7 +33,6 @@ export function* signUp () {
     // Call our request helper (see 'utils/request')
     const response = yield call(fetchSignUp, params);
     // yield put(reposLoaded(repos, username));
-    console.log("RESPONSE", response)
     yield put(singUpSuccess(response))
     yi
   } catch (err) {

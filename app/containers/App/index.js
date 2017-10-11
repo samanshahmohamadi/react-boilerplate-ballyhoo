@@ -36,10 +36,10 @@ export function App(props) {
   return (
     <AppWrapper>
       <Helmet
-        titleTemplate="%s - React.js Boilerplate"
-        defaultTitle="React.js Boilerplate"
+        titleTemplate="%s - Ballyhooawards"
+        defaultTitle="Ballyhooawards"
         meta={[
-          { name: 'description', content: 'A React.js Boilerplate application' },
+          { name: 'description', content: 'Ballyhooawards' },
         ]}
       />
       <Header signOut={props.onSignOut} user={props.user} isAuthenticated={props.isAuthenticated} />

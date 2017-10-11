@@ -31,6 +31,11 @@ export default defineMessages({
     defaultMessage: '@',
   },
 
+  "signin.401": {
+    id: 'boilerplate.containers.HomePage.error.signin.401',
+    defaultMessage: 'نام کاربری یا رمز عبور نادرست است.',
+  },
+
   "401": {
     id: 'boilerplate.containers.HomePage.error.401',
     defaultMessage: 'دسترسی غیرمجاز! لطفا با استفاده از نام کاربری و رمز عبور وارد شوید.',
@@ -39,6 +44,11 @@ export default defineMessages({
   "208": {
     id: 'boilerplate.containers.HomePage.error.208',
     defaultMessage: 'فایل انتخاب شده قبلا ثبت شده است. امکان ثبت مجدد این فایل وجود ندارد.',
+  },
+
+  "500": {
+    id: 'boilerplate.containers.HomePage.error.500',
+    defaultMessage: 'در حین انجام عملیات یک خطا رخ داده است. لطفا دوباره امتحان کنید.',
   },
 
   "enough.pdf": {

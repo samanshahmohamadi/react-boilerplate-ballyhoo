@@ -16,7 +16,7 @@
  */
 
 import {
-  CHANGE_EMAIL, CHANGE_PASSWORD, SIGN_UP, SIGN_UP_SUCCESS, SIGN_UP_ERROR
+  SIGN_UP, SIGN_UP_SUCCESS, SIGN_UP_ERROR
 } from './constants';
 
 /**
@@ -26,19 +26,6 @@ import {
  *
  * @return {object}    An action object with a type of CHANGE_USERNAME
  */
-export function changeEmail(email) {
-  return {
-    type: CHANGE_EMAIL,
-    email,
-  };
-}
-
-export function changePassword(password) {
-  return {
-    type: CHANGE_PASSWORD,
-    password,
-  };
-}
 
 export function signUp(params) {
   return {
@@ -58,7 +45,6 @@ export function singUpError(err) {
   let errorCode
   if (err.response) errorCode = err.response.status
   else if (err.message) errorCode = err.message
-  console.log(errorCode)
   return {
     type: SIGN_UP_ERROR,
     errorCode

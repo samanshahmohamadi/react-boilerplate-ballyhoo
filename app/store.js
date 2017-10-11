@@ -46,6 +46,11 @@ export default function configureStore(initialState = {}, history) {
   store.runSaga = sagaMiddleware.run;
   store.asyncReducers = {}; // Async reducer registry
 
+
+  store.asyncSagas = new Map(); // Async saga registry to avoid multiple executions of the same saga
+
+
+
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */
   if (module.hot) {
@@ -59,7 +64,7 @@ export default function configureStore(initialState = {}, history) {
     });
   }
   // persistStore(store)
-  persistStore(store, { blacklist: ['route','signup.error'] })
+  persistStore(store, { blacklist: ['route'] })
 
 
   return store;

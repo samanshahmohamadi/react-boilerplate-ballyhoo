@@ -12,7 +12,7 @@
 import {fromJS} from 'immutable';
 
 import {
-  CHANGE_EMAIL, CHANGE_PASSWORD, SIGN_UP, SIGN_UP_SUCCESS, SIGN_UP_ERROR
+  SIGN_UP, SIGN_UP_SUCCESS, SIGN_UP_ERROR
 } from './constants';
 
 // The initial state of the App
@@ -22,7 +22,6 @@ const initialState = fromJS({
 });
 
 function signUpReducer (state = initialState, action) {
-  console.log(action)
   switch (action.type) {
     case CHANGE_EMAIL:
       return state

@@ -15,8 +15,7 @@ import CenteredSection from './CenteredSection';
 // import Input from './Input';
 import Section from './Section';
 import messages from './messages';
-import {changeEmail, changePassword, signUp} from './actions';
-import {makeSelectEmail, makeSelectPassword} from './selectors';
+import {signUp} from './actions';
 
 import {getCompanyActivity} from './dataHelper'
 
@@ -72,9 +71,9 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     };
     return (<article>
       <Helmet
-        title="Home Page"
+        title="SignUp"
         meta={[
-          {name: 'description', content: 'A React.js Boilerplate application homepage'}
+          {name: 'description', content: 'Ballyhooawards'}
         ]}
       />
       <div style={mainStyle}>

@@ -38,27 +38,24 @@ export default class HttpRequest {
 			})
 	}
 
-	post(url, params, config = null) {
-		let urlParams = new URLSearchParams();
-		for (let k in params) urlParams.append(k, params[k])
-		return this.instance.post(Config.UMBackendAddr + url, urlParams, config)
-			.then(payload => {
-			  console.log("HTTP_REQUEST>SUCCESS",payload)
-        if (payload.status !== 200) return Promise.reject(payload.status)
-				return payload
-			})
-			.catch(error => {
-				if (error.response) {
-          console.log("error.response", error.response)
-					throw new Error(error.response.status)
-				} else if (error) {
-				  console.log("ERROR EMPTY >>> "+ error)
-          throw new Error(error)
+  post(url, params, config = null) {
+    let urlParams = new URLSearchParams();
+    for (let k in params) urlParams.append(k, params[k])
+    return this.instance.post(Config.UMBackendAddr + url, urlParams, config)
+      .then(payload => {
+        if (payload.status !== 200) throw new Error (payload.status)
+        return payload
+      })
+      .catch(error => {
+        if (error.response) {
+          return Promise.reject(error.response.status)
+        } else if (error) {
+          return Promise.reject(error)
         } else {
-					throw new Error(400)
-				}
-			})
-	}
+          return Promise.reject(400)
+        }
+      })
+  }
 
 	postFile(formData, server) {
 		const config = {

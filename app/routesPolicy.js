@@ -15,7 +15,6 @@ export const requireAuth = (store) => (nextState, replace) => {
 
 export const requireNotAuth = (store) => (nextState, replace) => {
   let isAuthenticated = store.getState().get('global').get('isAuthenticated')
-  console.log(isAuthenticated)
   if (nextState.location.pathname === '/') {
     return
   }

@@ -16,7 +16,6 @@ export const getVideoDuration = (file) => {
   return new Promise(function (resolve, reject) {
     video.onloadedmetadata = function() {
       window.URL.revokeObjectURL(this.src)
-      console.log(video.duration)
       resolve (video.duration);
     }
   })

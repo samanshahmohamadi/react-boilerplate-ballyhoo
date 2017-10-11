@@ -25,8 +25,25 @@ import Input from './Input';
 import Section from './Section';
 import messages from './messages';
 // import {signIn} from './actions';
-import {clearLoading,changeEmail, changePassword, signIn, createTnx, selectFileError, clearSelectFileError, createTnxError, createTnxSuccess} from './actions';
-import {makeSelectEmail, makeSelectPassword, makeSelectUser, makeSelectFileError, makeSelectLoading, makeSelectCreateTnxSuccess} from './selectors';
+import {
+  clearLoading,
+  changeEmail,
+  changePassword,
+  signIn,
+  createTnx,
+  selectFileError,
+  clearSelectFileError,
+  createTnxError,
+  createTnxSuccess
+} from './actions';
+import {
+  makeSelectEmail,
+  makeSelectPassword,
+  makeSelectUser,
+  makeSelectFileError,
+  makeSelectLoading,
+  makeSelectCreateTnxSuccess
+} from './selectors';
 
 import {
   Button, Card, Checkbox, Container, Divider, Dropdown, Form, Grid, Icon, Label, Message, Popup, Radio,
@@ -89,16 +106,12 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     this.setState({
       tnxData: {...this.state.tnxData, ...{[e.target.name]: e.target.value}}
     }, () => {
-      console.log(this.state.tnxData)
     })
   }
 
   selectPlan = (e) => {
     const plan = e.target.value
     let option = _.find(this.state.createTnxForm.plan, {value: plan});
-
-    // let option = _.find(this.state.createTnxForm.plan, 'value', plan);
-    console.log(plan, option)
     this.setState({
       planName: option.text,
       planFee: option.fee,
@@ -134,7 +147,6 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     this.setState({
       tnxData: {...this.state.tnxData, ...obj}
     }, () => {
-      console.log(this.state.tnxData)
     })
   }
 
@@ -142,7 +154,6 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     this.setState({
       tnxData: {...this.state.tnxData, ...{'upload': this.state.tnxData.upload !== true}}
     }, () => {
-      console.log(this.state.tnxData)
     })
   }
 
@@ -157,7 +168,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     this.props.onCreateTnx()
     // this.props.onSubmitCreateTnxForm(this.state.tnxData)
     if (this.state.tnxData.files.length > 1) {
-      makeZip(this.state.tnxData.files)
+      makeZip(this.props.user.userId, this.state.tnxData.files)
         .then(file => {
           this.setState({
             tnxData: {...this.state.tnxData, ...{files: file}}
@@ -211,11 +222,9 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                   if (payload.status !== 200) return Promise.reject(payload.status)
                   this.props.onSuccessCreateTnx(payload)
                   this.resetState()
-                  console.log(payload)
                 })
                 .catch(err => {
                   this.props.onErrorCreateTnx(err)
-                  console.log(err)
                 })
             })
 
@@ -225,7 +234,12 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
   }
 
   resetState = () => {
-    this.setState({fileInputCount: 1, selectedFilesCountByType: {pdf: 0, movie: 0, jpg: 0}, tnxData: {server: 'um', upload: true, files: []}, fileTmp: {}})
+    this.setState({
+      fileInputCount: 1,
+      selectedFilesCountByType: {pdf: 0, movie: 0, jpg: 0},
+      tnxData: {server: 'um', upload: true, files: []},
+      fileTmp: {}
+    })
   }
 
   handleDropdownChange = (e, data) => {
@@ -341,8 +355,6 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       });
       this.setState({
         tnxData: {...this.state.tnxData, ...{'files': files}}
-      }, () => {
-        console.log(this.state.tnxData)
       })
     })
 
@@ -354,27 +366,24 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     if (this.state.fileInputCount > 4) return
     this.setState({
       fileInputCount: this.state.fileInputCount + 1
-    }, () => {
-      console.log(this.state.fileInputCount)
     })
   }
 
   render() {
     const {email, password} = this.state
     const {loading, error, repos} = this.props;
-    console.log("LOADING",this.props.loading)
 
     return (<article>
       <Helmet
         title="Home Page"
         meta={[
-          {name: 'description', content: 'A React.js Boilerplate application homepage'}
+          {name: 'description', content: 'Ballyhooawards'}
         ]}
       />
       <div style={mainStyle}>
         <CenteredSection>
           {this.props.isAuthenticated !== true ?
-            (<div style={{paddingBottom:'20px'}}><H2>
+            (<div style={{paddingBottom: '20px'}}><H2>
               <FormattedMessage {...messages.startProjectHeader} />
             </H2>
               <H4>
@@ -392,18 +401,22 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
               </Grid.Column>
               <Grid.Column width={8} style={loginFormContainerStyle}>
                 {this.props.isAuthenticated !== true ?
-                  (<Form onSubmit={this.handleLogin} style={loginFormStyle}>
+                  (<div><Form loading={this.props.loading} onSubmit={this.handleLogin} style={loginFormStyle}>
                     {/*<H3 style={formTitleStyle}>Sign-up</H3>*/}
                     <Form.Field>
                       <label>ایمیل</label>
-                      <input style={{direction:'ltr'}} placeholder='ایمیل' onChange={this.props.onChangeEmail}/>
+                      <input style={{direction: 'ltr'}} placeholder='ایمیل' onChange={this.props.onChangeEmail}/>
                     </Form.Field>
                     <Form.Field>
                       <label>رمز عبور</label>
-                      <input style={{direction:'ltr'}} type="password" placeholder='رمز عبور' onChange={this.props.onChangePassword}/>
+                      <input style={{direction: 'ltr'}} type="password" placeholder='رمز عبور'
+                             onChange={this.props.onChangePassword}/>
                     </Form.Field>
                     <Button color="green">ورود</Button>
-                  </Form>) : (
+                  </Form>{this.props.error && this.props.error !== false ? (<Message negative>
+                    <Message.Header>خطا!</Message.Header>
+                    <p><FormattedMessage {...messages['signin.' + this.props.error]} /></p>
+                  </Message>) : (null)}</div>) : (
                     <Container>
                       <Divider />
                       {!this.state.tnxData.type ?
@@ -471,14 +484,15 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                               return <Form.Field key={i}>
                                 <div>
                                   <label style={{width: '100%'}}
-                                         className={this.state.fileTmp['file'+(i)] ? ((this.state.fileTmp['file'+(i)].type === 'application/pdf' && e === 'file pdf outline')
-                                         || (this.state.fileTmp['file'+(i)].type === 'video/mp4' && e === 'film')
-                                         || ((this.state.fileTmp['file'+(i)].type === 'image/jpg' || this.state.fileTmp['file'+(i)].type === 'image/jpeg' || this.state.fileTmp['file'+(i)].type === 'application/pdf') && e === 'file image outline')) ? 'yellow ui icon button' : 'ui icon button' : 'ui icon button'}>
+                                         className={this.state.fileTmp['file' + (i)] ? ((this.state.fileTmp['file' + (i)].type === 'application/pdf' && e === 'file pdf outline')
+                                         || (this.state.fileTmp['file' + (i)].type === 'video/mp4' && e === 'film')
+                                         || ((this.state.fileTmp['file' + (i)].type === 'image/jpg' || this.state.fileTmp['file' + (i)].type === 'image/jpeg' || this.state.fileTmp['file' + (i)].type === 'application/pdf') && e === 'file image outline')) ? 'yellow ui icon button' : 'ui icon button' : 'ui icon button'}>
                                     {this.state.tnxData.files.length > 0 ?
-                                      (this.state.fileTmp['file'+(i)] && ((this.state.fileTmp['file'+(i)].type === 'application/pdf' && e === 'file pdf outline')
-                                      || (this.state.fileTmp['file'+(i)].type === 'video/mp4' && e === 'film')
-                                      || ((this.state.fileTmp['file'+(i)].type === 'image/jpg' || this.state.fileTmp['file'+(i)].type === 'image/jpeg' || this.state.fileTmp['file'+(i)].type === 'application/pdf') && e === 'file image outline'))
-                                        ? this.state.fileTmp['file'+(i)].name : <div><i className={"icon " + e}/> انتخاب
+                                      (this.state.fileTmp['file' + (i)] && ((this.state.fileTmp['file' + (i)].type === 'application/pdf' && e === 'file pdf outline')
+                                      || (this.state.fileTmp['file' + (i)].type === 'video/mp4' && e === 'film')
+                                      || ((this.state.fileTmp['file' + (i)].type === 'image/jpg' || this.state.fileTmp['file' + (i)].type === 'image/jpeg' || this.state.fileTmp['file' + (i)].type === 'application/pdf') && e === 'file image outline'))
+                                        ? this.state.fileTmp['file' + (i)].name :
+                                        <div><i className={"icon " + e}/> انتخاب
                                           فایل {e === 'film' ? 'ویدئو' : e === 'file pdf outline' ? 'پی‌.دی.اف' : e === 'file image outline' ? 'تصویر' : ('')}
                                         </div>) : (
                                         <div><i className={"icon " + e}/> انتخاب
@@ -513,11 +527,13 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                             </Form.Field>
                             <Form.Field>
                               <label>ترجمه شعار/متن تبلیغ (به زبان انگلیسی)</label>
-                              <input required={true} style={{direction:'ltr'}} name="slogan" onChange={this.handleChange}/>
+                              <input required={true} style={{direction: 'ltr'}} name="slogan"
+                                     onChange={this.handleChange}/>
                             </Form.Field>
                             <Form.Field>
                               <label className="text-right">توضیحات</label>
-                              <TextArea required={true} className={'iranSans'} onChange={this.handleChange} name="desc" autoHeight
+                              <TextArea required={true} className={'iranSans'} onChange={this.handleChange} name="desc"
+                                        autoHeight
                                         placeholder='توضیح کوتاهی درباره‌ی اثر خود بنویسید...'/>
                             </Form.Field>
                             <Form.Field style={{direction: 'rtl'}}>
@@ -558,14 +574,16 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                                   </Card.Meta>
                                   <Card.Description className={'faNo'}>
 
-                                    <Label as='a' color='teal' tag>{numberWithCommas(this.state.tnxData.server === 'um' ? this.state.planFee : 0)} تومان</Label>
+                                    <Label as='a' color='teal'
+                                           tag>{numberWithCommas(this.state.tnxData.server === 'um' ? this.state.planFee : 0)}
+                                      تومان</Label>
                                   </Card.Description>
                                 </Card.Content>
                                 <Label style={{left: '-60%', width: '50%'}} as='a' color='green'
                                        ribbon>{this.state.planName}</Label>
                                 <Card.Content extra>
                                   <a className="faNo">
-                                    تعداد کار: {this.state.tnxData.files.length}
+                                    تعداد کار: {this.state.tnxData ? this.state.tnxData.files.length : 0}
                                   </a>
                                 </Card.Content>
                               </Card>

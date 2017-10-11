@@ -5,7 +5,7 @@ const CryptoJS = require("crypto-js");
 const JSZip = require("jszip");
 
 
-export const makeZip = (files) => {
+export const makeZip = (id, files) => {
   let zip = new JSZip();
   let readContentPromises = []
   files.map((file) => {
@@ -19,7 +19,12 @@ export const makeZip = (files) => {
       return zip.generateAsync({type: "blob"})
     })
     .then(content => {
-      let file = new File([content], "ZIP.zip", {type: "application/zip", lastModified: new Date(), lastModifiedTime: new Date().getTime()});
+      let tmpName = id + '-' + new Date().getTime()
+      let file = new File([content], tmpName + ".zip", {
+        type: "application/zip",
+        lastModified: new Date(),
+        lastModifiedTime: new Date().getTime()
+      });
       return file
     });
 }

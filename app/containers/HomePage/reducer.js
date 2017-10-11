@@ -33,7 +33,6 @@ const initialState = fromJS({
 });
 
 function homeReducer(state = initialState, action) {
-  console.log(action)
   switch (action.type) {
     case CHANGE_EMAIL:
       return state
@@ -52,6 +51,10 @@ function homeReducer(state = initialState, action) {
         .set('loading', false)
         .set('error', false)
         .set('currentUser', action.response.data);
+    case SIGN_IN_ERROR:
+      return state
+        .set('loading', false)
+        .set('error', action.err)
     case CREATE_TNX:
       return state
         .set('loading', true)
