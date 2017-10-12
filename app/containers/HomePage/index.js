@@ -222,7 +222,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
               return new HttpRequest().postFile(fd, this.state.tnxData.server)
                 .then(payload => {
                   if (payload.status !== 200) return Promise.reject(payload.status)
-                  this.props.onSuccessCreateTnx(payload)
+                  this.props.onSuccessCreateTnx()
                   this.resetState()
                 })
                 .catch(err => {
@@ -699,8 +699,8 @@ export function mapDispatchToProps(dispatch) {
     onCreateTnx: () => {
       dispatch(createTnx())
     },
-    onSuccessCreateTnx: (response) => {
-      dispatch(createTnxSuccess(response.data))
+    onSuccessCreateTnx: () => {
+      dispatch(createTnxSuccess())
     },
     onErrorCreateTnx: (err) => {
       dispatch(createTnxError(err))

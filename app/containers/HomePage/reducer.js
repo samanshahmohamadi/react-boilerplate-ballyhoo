@@ -64,8 +64,7 @@ function homeReducer(state = initialState, action) {
       return state
         .set('loading', false)
         .set('error', false)
-        .set('success', 200)
-        .set('tnx', action.response)
+        .set('success', "200")
     case CREATE_TNX_ERROR:
       return state
         .set('loading', false)

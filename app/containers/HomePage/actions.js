@@ -77,10 +77,9 @@ export function createTnx() {
   };
 }
 
-export function createTnxSuccess(response) {
+export function createTnxSuccess() {
   return {
-    type: CREATE_TNX_SUCCESS,
-    response
+    type: CREATE_TNX_SUCCESS
   };
 }
 
