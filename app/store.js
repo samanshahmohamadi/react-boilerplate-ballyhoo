@@ -2,12 +2,12 @@
  * Create the store with asynchronously loaded reducers
  */
 
-import { createStore, applyMiddleware, compose } from 'redux';
-import { fromJS } from 'immutable';
-import { routerMiddleware } from 'react-router-redux';
+import {createStore, applyMiddleware, compose} from 'redux';
+import {fromJS} from 'immutable';
+import {routerMiddleware} from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
-import { persistStore, autoRehydrate } from 'redux-persist-immutable'
+import {persistStore, autoRehydrate} from 'redux-persist-immutable'
 
 
 const sagaMiddleware = createSagaMiddleware();
@@ -50,7 +50,6 @@ export default function configureStore(initialState = {}, history) {
   store.asyncSagas = new Map(); // Async saga registry to avoid multiple executions of the same saga
 
 
-
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */
   if (module.hot) {
@@ -64,8 +63,9 @@ export default function configureStore(initialState = {}, history) {
     });
   }
   // persistStore(store)
-  persistStore(store, { blacklist: ['route'] })
+  persistStore(store, {blacklist: ['route']})
 
 
   return store;
 }
+

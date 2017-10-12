@@ -380,7 +380,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       <Helmet
         title="Home Page"
         meta={[
-          {name: 'description', content: 'Ballyhooawards'}
+          {name: 'description', content: 'BallyhooAwards'}
         ]}
       />
       <div style={mainStyle}>
@@ -417,7 +417,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                              onChange={this.props.onChangePassword}/>
                     </Form.Field>
                     <Button color="green">ورود</Button>
-                  </Form>{this.props.error && this.props.error !== false ? (<Message negative>
+                  </Form>{this.props.error && this.props.error !== false && this.props.error !== 208 ? (<Message negative>
                     <Message.Header>خطا!</Message.Header>
                     <p><FormattedMessage {...messages['signin.' + this.props.error]} /></p>
                   </Message>) : (null)}</div>
@@ -616,7 +616,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                       </Grid.Column>
                       <Grid.Column width={2}>
                       </Grid.Column>
-                      {this.props.isAuthenticated === true ?
+                      {this.props.isAuthenticated === true && this.state.tnxData.type ?
                         (<Grid.Column width={6}>
                           <Container textAlign={'center'}>
                             <Message style={{lineHeight:'2.5'}} info>

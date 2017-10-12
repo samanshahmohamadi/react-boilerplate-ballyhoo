@@ -24,6 +24,8 @@ import {signOut } from './actions';
 
 import {browserHistory} from 'react-router';
 
+import {purgeReduxState} from '../../app'
+
 const AppWrapper = styled.div`
   margin: 0 auto;
   display: flex;
@@ -66,6 +68,7 @@ export function mapDispatchToProps (dispatch) {
   return {
     onSignOut: (evt) => {
       dispatch(signOut())
+      purgeReduxState()
       browserHistory.push('/')
     },
   };
