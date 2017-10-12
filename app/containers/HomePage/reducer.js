@@ -25,6 +25,13 @@ import {
   CLEAR_LOADING
 } from './constants';
 
+import {
+  SIGN_OUT
+} from 'containers/App/constants';
+
+
+
+
 // The initial state of the App
 const initialState = fromJS({
   loading: false,
@@ -80,6 +87,16 @@ function homeReducer(state = initialState, action) {
     case CLEAR_LOADING:
       return state
         .set('loading', false)
+    case "persist/REHYDRATE":
+      return state
+        .set('error', false)
+        .set('loading', false);
+    case SIGN_OUT:
+      state = initialState
+      return state
+      // return state
+      //   .set('error', false)
+      //   .set('loading', false);
     default:
       return state;
   }

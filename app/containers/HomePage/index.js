@@ -55,7 +55,7 @@ import {numberWithCommas, bytesToMb, getVideoDuration} from '../../utils/Utils'
 
 const mainStyle = {padding: '2% 4%'};
 const loginFormContainerStyle = {/*background: 'rgba(255, 213, 79,0.9)', border: 'solid 1px rgba(255, 213, 79,1.0)', borderRadius: '3px'*/}
-const loginFormStyle = {padding: '10px'}
+const loginFormStyle = {padding: '10px', textAlign: 'center'}
 const signupLinkStyle = {color: 'rgba(255, 179, 0,1.0)'}
 import {digestFile, makeZip} from '../../utils/crypto'
 import * as _ from "lodash";
@@ -143,7 +143,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
 
   handleRadioChange = (e, {value}) => {
     let obj = {'server': value}
-    value === 'um' ? obj.upload = true : obj.upload = false
+    // value === 'um' ? obj.upload = true : obj.upload = false
     this.setState({
       tnxData: {...this.state.tnxData, ...obj}
     }, () => {
@@ -151,6 +151,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
   }
 
   handleUploadCheckbox = (e, {value}) => {
+    // ELEMENT COMMENTED, NOT WORKING NOW
     this.setState({
       tnxData: {...this.state.tnxData, ...{'upload': this.state.tnxData.upload !== true}}
     }, () => {
@@ -392,7 +393,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
               <H4>
                 <Link style={signupLinkStyle}
                       to="/signup">{this.props.intl.formatMessage({...messages.notSignedUpYetHeader})}</Link>
-              </H4></div>) : (<div><H2 style={{fontSize:'36px'}}>
+              </H4></div>) : (<div><H2 style={{fontSize: '36px'}}>
               اثر خود را ثبت کنید
             </H2>{this.state.tnxData.type ? <Button style={{marginBottom: '20px'}}
                                                     disabled={this.props.loading}
@@ -400,11 +401,9 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                                                     secondary={true}
                                                     color="blue">بازگشت</Button> : (null)}</div>)}
           {this.props.isAuthenticated !== true ?
-            (<Grid>
+            (<Grid centered doubling>
               <Grid.Row>
-                <Grid.Column width={4}>
-                </Grid.Column>
-                <Grid.Column width={8} style={loginFormContainerStyle}>
+                <Grid.Column mobile={12} computer={8} style={loginFormContainerStyle}>
                   <div><Form loading={this.props.loading} onSubmit={this.handleLogin} style={loginFormStyle}>
                     {/*<H3 style={formTitleStyle}>Sign-up</H3>*/}
                     <Form.Field>
@@ -417,222 +416,215 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                              onChange={this.props.onChangePassword}/>
                     </Form.Field>
                     <Button color="green">ورود</Button>
-                  </Form>{this.props.error && this.props.error !== false && this.props.error !== 208 ? (<Message negative>
-                    <Message.Header>خطا!</Message.Header>
-                    <p><FormattedMessage {...messages['signin.' + this.props.error]} /></p>
-                  </Message>) : (null)}</div>
-                </Grid.Column>
-                <Grid.Column width={4}>
+                  </Form>{this.props.error && this.props.error !== false && this.props.error !== 208 ? (
+                    <Message negative>
+                      <Message.Header>خطا!</Message.Header>
+                      <p><FormattedMessage {...messages['signin.' + this.props.error]} /></p>
+                    </Message>) : (null)}</div>
                 </Grid.Column>
               </Grid.Row>
             </Grid>) : (
+              !this.state.tnxData.type ?
+                (<Grid textAlign={'center'} centered={true}><Grid.Row>
+                    <Grid.Column style={{textAlign:'center'}} computer={8} mobile={12}>
+                      <Divider />
+                      <H4>
+                        لطفا با توجه به نوع اثر خود یکی از طرح‌ها را انتخاب کنید
+                      </H4>
+                      <Popup
+                        wide
+                        inverted
+                        trigger={<Button style={{marginBottom: '20px'}} value="campaignplus"
+                                         onClick={this.selectPlan} fluid
+                                         color="yellow">
+                          کمپین پلاس
+                        </Button>}
+                        content='۱ تا ۳ عدد فیلم mp4 هر کدام حداکثر ۱۰۰ ثانیه و حجم هر کدام حداکثر ۲۰ مگابایت + یک فایل PDF شامل ۳ تا ۵ فریم تصویر با حجم حداکثر ۲۰ مگابایت'
+                      />
+                      <Popup
+                        wide
+                        inverted
+                        trigger={<Button style={{marginBottom: '20px'}} value="campaign" onClick={this.selectPlan}
+                                         fluid
+                                         color="yellow">
+                          کمپین
+                        </Button>}
+                        content='یک فایل PDF شامل ۳ تا ۵ فریم تصویر با حداکثر حجم ۲۰ مگابایت'
+                      />
+                      <Popup
+                        wide
+                        inverted
+                        trigger={<Button style={{marginBottom: '20px'}} value="singleframe"
+                                         onClick={this.selectPlan} fluid
+                                         color="yellow">
+                          تک فریم
+                        </Button>}
+                        content='یک فایل PDF یا JPG با حداکثر حجم ۵ مگابایت'
+                      />
+                      <Popup
+                        wide
+                        inverted
 
-              <Grid>
+                        trigger={<Button style={{marginBottom: '20px'}} value="video" onClick={this.selectPlan}
+                                         fluid
+                                         color="yellow">
+                          فیلم
+                        </Button>}
+                        content='۱ عدد فیلم mp4 حداکثر ۱۰۰ ثانیه و حجم حداکثر ۲۰ مگابایت'
+                      />
 
-                {!this.state.tnxData.type ?
-                  (<Grid.Row>
-                      <Grid.Column width={4}>
-                      </Grid.Column>
-                      <Grid.Column width={8}>
-                        <Container>
-                          <Divider />
-                          <div>
-                            <H4>
-                              لطفا با توجه به نوع اثر خود یکی از طرح‌ها را انتخاب کنید
-                            </H4>
-                            <Popup
-                              wide
-                              inverted
-                              trigger={<Button style={{marginBottom: '20px'}} value="campaignplus"
-                                               onClick={this.selectPlan} fluid
-                                               color="yellow">
-                                کمپین پلاس
-                              </Button>}
-                              content='۱ تا ۳ عدد فیلم mp4 هر کدام حداکثر ۱۰۰ ثانیه و حجم هر کدام حداکثر ۲۰ مگابایت + یک فایل PDF شامل ۳ تا ۵ فریم تصویر با حجم حداکثر ۲۰ مگابایت'
+                      {this.props.success && this.props.success !== false ? (<Message positive>
+                        <Message.Header>درخواست با موفقیت انجام شد.</Message.Header>
+                        <p><FormattedMessage {...messages[this.props.success]} /></p>
+                      </Message>) : (null)}</Grid.Column></Grid.Row></Grid>
+                ) : (
+                <Grid>
+                  <Grid.Row>
+                    <Grid.Column textAlign="center" computer={8} mobile={16}>
+                      <Container>
+                        <Form loading={this.props.loading} onSubmit={this.handleCreateTnx} style={loginFormStyle}>
+                          {/*<H3 style={formTitleStyle}>Sign-up</H3>*/}
+                          {/*<Form.Field>
+                           <label className="text-right">نوع پلن</label>
+                           <Dropdown name="type" onChange={this.handleDropdownChange} placeholder='انتخاب پلن' fluid
+                           selection options={_.map(this.state.createTnxForm.plan, function (o) {
+                           return _.omit(o, 'fee');
+                           })}/>
+                           </Form.Field>*/}
+                          {this.state.planFileTypeIcons.map((e, i) => {
+                            return <Form.Field key={i}>
+                              <div>
+                                <label style={{width: '100%'}}
+                                       className={this.state.fileTmp['file' + (i)] ? ((this.state.fileTmp['file' + (i)].type === 'application/pdf' && e === 'file pdf outline')
+                                       || (this.state.fileTmp['file' + (i)].type === 'video/mp4' && e === 'film')
+                                       || ((this.state.fileTmp['file' + (i)].type === 'image/jpg' || this.state.fileTmp['file' + (i)].type === 'image/jpeg' || this.state.fileTmp['file' + (i)].type === 'application/pdf') && e === 'file image outline')) ? 'yellow ui icon button' : 'ui icon button' : 'ui icon button'}>
+                                  {this.state.tnxData.files.length > 0 ?
+                                    (this.state.fileTmp['file' + (i)] && ((this.state.fileTmp['file' + (i)].type === 'application/pdf' && e === 'file pdf outline')
+                                    || (this.state.fileTmp['file' + (i)].type === 'video/mp4' && e === 'film')
+                                    || ((this.state.fileTmp['file' + (i)].type === 'image/jpg' || this.state.fileTmp['file' + (i)].type === 'image/jpeg' || this.state.fileTmp['file' + (i)].type === 'application/pdf') && e === 'file image outline'))
+                                      ? this.state.fileTmp['file' + (i)].name :
+                                      <div><i className={"icon " + e}/> انتخاب
+                                        فایل {e === 'film' ? 'ویدئو' : e === 'file pdf outline' ? 'پی‌.دی.اف' : e === 'file image outline' ? 'تصویر' : ('')}
+                                      </div>) : (
+                                      <div><i className={"icon " + e}/> انتخاب
+                                        فایل {e === 'film' ? 'ویدئو' : e === 'file pdf outline' ? 'پی‌.دی.اف' : e === 'file image outline' ? 'تصویر' : ('')}
+                                      </div>)
+                                  }
+                                  <input type="file" data-type={e} name={"file" + i} style={{display: 'none'}}
+                                         onChange={(e) => {
+                                           this.handleFileSelect(e)
+                                         }}/></label>
+                              </div>
+                            </Form.Field>
+                          })}
+                          {this.props.error && this.props.error !== false ? (<Message negative>
+                            <Message.Header>خطا!</Message.Header>
+                            <p><FormattedMessage {...messages[this.props.error]} /></p>
+                          </Message>) : (null)}
+
+                          {/*<Form.Field style={{direction: 'rtl'}}>
+                           <Button disabled={this.state.fileInputCount > 4} type="button" onClick={this.addFileInput}
+                           fluid
+                           primary>می‌خواهید فایل‌های بیشتری آپلود
+                           کنید؟</Button>
+                           </Form.Field>*/}
+                          <Form.Field>
+                            <label>اسم اثر</label>
+                            <input required={true} className={'faNo'} name="name" onChange={this.handleChange}/>
+                          </Form.Field>
+                          <Form.Field>
+                            <label>موضوع تبلیغ</label>
+                            <input required={true} className={'faNo'} name="subject" onChange={this.handleChange}/>
+                          </Form.Field>
+                          <Form.Field>
+                            <label>ترجمه شعار/متن تبلیغ (به زبان انگلیسی)</label>
+                            <input required={true} style={{direction: 'ltr'}} name="slogan"
+                                   onChange={this.handleChange}/>
+                          </Form.Field>
+                          <Form.Field>
+                            <label className="text-right">توضیحات</label>
+                            <TextArea required={true} className={'iranSans'} onChange={this.handleChange} name="desc"
+                                      autoHeight
+                                      placeholder='توضیح کوتاهی درباره‌ی اثر خود بنویسید...'/>
+                          </Form.Field>
+                          <Form.Field style={{direction: 'rtl'}}>
+                            <Radio
+                              label='آثار ارسالی من در «ثبت شد» ثبت شود.'
+                              name='server'
+                              value='sabtshod'
+                              checked={this.state.tnxData.server === 'sabtshod'}
+                              onChange={this.handleRadioChange}
                             />
-                            <Popup
-                              wide
-                              inverted
-                              trigger={<Button style={{marginBottom: '20px'}} value="campaign" onClick={this.selectPlan}
-                                               fluid
-                                               color="yellow">
-                                کمپین
-                              </Button>}
-                              content='یک فایل PDF شامل ۳ تا ۵ فریم تصویر با حداکثر حجم ۲۰ مگابایت'
+                          </Form.Field>
+                          <Form.Field style={{direction: 'rtl'}}>
+                            <Radio
+                              label='آثار ارسالی من در «UM» ثبت شود.'
+                              name='server'
+                              value='um'
+                              checked={this.state.tnxData.server === 'um'}
+                              onChange={this.handleRadioChange}
                             />
-                            <Popup
-                              wide
-                              inverted
-                              trigger={<Button style={{marginBottom: '20px'}} value="singleframe"
-                                               onClick={this.selectPlan} fluid
-                                               color="yellow">
-                                تک فریم
-                              </Button>}
-                              content='یک فایل PDF یا JPG با حداکثر حجم ۵ مگابایت'
-                            />
-                            <Popup
-                              wide
-                              inverted
+                          </Form.Field>
+                          {/*<Form.Field style={{direction: 'rtl'}}>
+                            <Checkbox value="true" onChange={this.handleUploadCheckbox}
+                                      disabled={this.state.tnxData.server === 'um'}
+                                      checked={this.state.tnxData.upload === true}
+                                      label={{children: 'فایل(ها) روی سرور آپلود شوند.'}}/>
+                          </Form.Field>*/}
 
-                              trigger={<Button style={{marginBottom: '20px'}} value="video" onClick={this.selectPlan}
-                                               fluid
-                                               color="yellow">
-                                فیلم
-                              </Button>}
-                              content='۱ عدد فیلم mp4 حداکثر ۱۰۰ ثانیه و حجم حداکثر ۲۰ مگابایت'
-                            />
+                          <Form.Field style={{direction: 'rtl'}}>
+                            <Card style={{margin: 'auto'}}>
+                              <Card.Content>
+                                <Card.Header className={'iransans'}>
+                                  صورت‌حساب
+                                </Card.Header>
+                                <Card.Meta>
+                                  {/*<span className='date'>
+                                   {this.state.planName}
+                                   </span>*/}
+                                </Card.Meta>
+                                <Card.Description className={'faNo'}>
 
-                            {this.props.success && this.props.success !== false ? (<Message positive>
-                              <Message.Header>درخواست با موفقیت انجام شد.</Message.Header>
-                              <p><FormattedMessage {...messages[this.props.success]} /></p>
-                            </Message>) : (null)}
-                          </div>
-                        </Container></Grid.Column><Grid.Column width={4}>
-                    </Grid.Column></Grid.Row>
-                  ) : (
-                    <Grid.Row>
-                      <Grid.Column textAlign="center" width={8}>
-                        <Container>
-                          <Form loading={this.props.loading} onSubmit={this.handleCreateTnx} style={loginFormStyle}>
-                            {/*<H3 style={formTitleStyle}>Sign-up</H3>*/}
-                            {/*<Form.Field>
-                             <label className="text-right">نوع پلن</label>
-                             <Dropdown name="type" onChange={this.handleDropdownChange} placeholder='انتخاب پلن' fluid
-                             selection options={_.map(this.state.createTnxForm.plan, function (o) {
-                             return _.omit(o, 'fee');
-                             })}/>
-                             </Form.Field>*/}
-                            {this.state.planFileTypeIcons.map((e, i) => {
-                              return <Form.Field key={i}>
-                                <div>
-                                  <label style={{width: '100%'}}
-                                         className={this.state.fileTmp['file' + (i)] ? ((this.state.fileTmp['file' + (i)].type === 'application/pdf' && e === 'file pdf outline')
-                                         || (this.state.fileTmp['file' + (i)].type === 'video/mp4' && e === 'film')
-                                         || ((this.state.fileTmp['file' + (i)].type === 'image/jpg' || this.state.fileTmp['file' + (i)].type === 'image/jpeg' || this.state.fileTmp['file' + (i)].type === 'application/pdf') && e === 'file image outline')) ? 'yellow ui icon button' : 'ui icon button' : 'ui icon button'}>
-                                    {this.state.tnxData.files.length > 0 ?
-                                      (this.state.fileTmp['file' + (i)] && ((this.state.fileTmp['file' + (i)].type === 'application/pdf' && e === 'file pdf outline')
-                                      || (this.state.fileTmp['file' + (i)].type === 'video/mp4' && e === 'film')
-                                      || ((this.state.fileTmp['file' + (i)].type === 'image/jpg' || this.state.fileTmp['file' + (i)].type === 'image/jpeg' || this.state.fileTmp['file' + (i)].type === 'application/pdf') && e === 'file image outline'))
-                                        ? this.state.fileTmp['file' + (i)].name :
-                                        <div><i className={"icon " + e}/> انتخاب
-                                          فایل {e === 'film' ? 'ویدئو' : e === 'file pdf outline' ? 'پی‌.دی.اف' : e === 'file image outline' ? 'تصویر' : ('')}
-                                        </div>) : (
-                                        <div><i className={"icon " + e}/> انتخاب
-                                          فایل {e === 'film' ? 'ویدئو' : e === 'file pdf outline' ? 'پی‌.دی.اف' : e === 'file image outline' ? 'تصویر' : ('')}
-                                        </div>)
-                                    }
-                                    <input type="file" data-type={e} name={"file" + i} style={{display: 'none'}}
-                                           onChange={(e) => {
-                                             this.handleFileSelect(e)
-                                           }}/></label>
-                                </div>
-                              </Form.Field>
-                            })}
-                            {this.props.error && this.props.error !== false ? (<Message negative>
-                              <Message.Header>خطا!</Message.Header>
-                              <p><FormattedMessage {...messages[this.props.error]} /></p>
-                            </Message>) : (null)}
-
-                            {/*<Form.Field style={{direction: 'rtl'}}>
-                             <Button disabled={this.state.fileInputCount > 4} type="button" onClick={this.addFileInput}
-                             fluid
-                             primary>می‌خواهید فایل‌های بیشتری آپلود
-                             کنید؟</Button>
-                             </Form.Field>*/}
-                            <Form.Field>
-                              <label>اسم اثر</label>
-                              <input required={true} className={'faNo'} name="name" onChange={this.handleChange}/>
-                            </Form.Field>
-                            <Form.Field>
-                              <label>موضوع تبلیغ</label>
-                              <input required={true} className={'faNo'} name="subject" onChange={this.handleChange}/>
-                            </Form.Field>
-                            <Form.Field>
-                              <label>ترجمه شعار/متن تبلیغ (به زبان انگلیسی)</label>
-                              <input required={true} style={{direction: 'ltr'}} name="slogan"
-                                     onChange={this.handleChange}/>
-                            </Form.Field>
-                            <Form.Field>
-                              <label className="text-right">توضیحات</label>
-                              <TextArea required={true} className={'iranSans'} onChange={this.handleChange} name="desc"
-                                        autoHeight
-                                        placeholder='توضیح کوتاهی درباره‌ی اثر خود بنویسید...'/>
-                            </Form.Field>
-                            <Form.Field style={{direction: 'rtl'}}>
-                              <Radio
-                                label='آثار ارسالی من در «ثبت شد» ثبت شود.'
-                                name='server'
-                                value='sabtshod'
-                                checked={this.state.tnxData.server === 'sabtshod'}
-                                onChange={this.handleRadioChange}
-                              />
-                            </Form.Field>
-                            <Form.Field style={{direction: 'rtl'}}>
-                              <Radio
-                                label='آثار ارسالی من در «UM» ثبت شود.'
-                                name='server'
-                                value='um'
-                                checked={this.state.tnxData.server === 'um'}
-                                onChange={this.handleRadioChange}
-                              />
-                            </Form.Field>
-                            <Form.Field style={{direction: 'rtl'}}>
-                              <Checkbox value="true" onChange={this.handleUploadCheckbox}
-                                        disabled={this.state.tnxData.server === 'um'}
-                                        checked={this.state.tnxData.upload === true}
-                                        label={{children: 'فایل(ها) روی سرور آپلود شوند.'}}/>
-                            </Form.Field>
-
-                            <Form.Field style={{direction: 'rtl'}}>
-                              <Card style={{margin: 'auto'}}>
-                                <Card.Content>
-                                  <Card.Header className={'iransans'}>
-                                    صورت‌حساب
-                                  </Card.Header>
-                                  <Card.Meta>
-                                    {/*<span className='date'>
-                                     {this.state.planName}
-                                     </span>*/}
-                                  </Card.Meta>
-                                  <Card.Description className={'faNo'}>
-
-                                    <Label as='a' color='teal'
-                                           tag>{numberWithCommas(this.state.tnxData.server === 'um' ? this.state.planFee : 0)}
-                                      تومان</Label>
-                                  </Card.Description>
-                                </Card.Content>
-                                <Label style={{left: '-60%', width: '50%'}} as='a' color='green'
-                                       ribbon>{this.state.planName}</Label>
-                                <Card.Content extra>
-                                  <a className="faNo">
-                                    تعداد کار: {this.state.tnxData ? this.state.tnxData.files.length : 0}
-                                  </a>
-                                </Card.Content>
-                              </Card>
-                            </Form.Field>
-                            <Button fluid color={'green'}>ارسال</Button>
-                          </Form>
-                        </Container>
-                      </Grid.Column>
-                      <Grid.Column width={2}>
-                      </Grid.Column>
-                      {this.props.isAuthenticated === true && this.state.tnxData.type ?
-                        (<Grid.Column width={6}>
-                          <Container textAlign={'center'}>
-                            <Message style={{lineHeight:'2.5'}} info>
+                                  <Label as='a' color='teal'
+                                         tag>{numberWithCommas(this.state.tnxData.server === 'um' ? this.state.planFee : 0)}
+                                    تومان</Label>
+                                </Card.Description>
+                              </Card.Content>
+                              <Label style={{left: '-60%', width: '50%'}} as='a' color='green'
+                                     ribbon>{this.state.planName}</Label>
+                              <Card.Content extra>
+                                <a className="faNo">
+                                  تعداد کار: {this.state.tnxData ? this.state.tnxData.files.length : 0}
+                                </a>
+                              </Card.Content>
+                            </Card>
+                          </Form.Field>
+                          <Button fluid color={'green'}>ارسال</Button>
+                        </Form>
+                      </Container>
+                    </Grid.Column>
+                    <Grid.Column width={2}>
+                    </Grid.Column>
+                    {this.props.isAuthenticated === true && this.state.tnxData.type ?
+                      (<Grid.Column computer={6} mobile={16}>
+                        <Container textAlign={'center'}>
+                          <Message style={{lineHeight: '2.5'}} info>
                             با هدف حمایت از حقوق مالکیت معنوی، و با همکاری مجموعه‌های «ثبت شد» و «UM»، امکان آن فراهم
                             آمده است تا در کنار بخش ارزیابی «Ballyhoo Awards» و به عنوان یک بخش جانبی، آثار شما در دو
                             سطح داخلی یا بین‌المللی با نام خودتان ثبت شود.
                             برای اطلاعات بیشتر و یا ثبت آثار می‌توانید از لینک‌های زیر استفاده کنید.
-                            </Message>
-                          </Container>
-                          <a href="http://sabtshod.com"><Button color="blue" style={{margin: '20px', width: '20%'}}>ثبت
-                            شد</Button></a>
-                          <a style={{color: 'white!important'}} href="http://utadoc.com"><Button color="blue" style={{margin: '20px', width: '20%'}}>UM</Button></a>
-                        </Grid.Column>) : (null)}
-                    </Grid.Row>
-                  )}
-              </Grid>
+                          </Message>
+                        </Container>
+                        <a href="http://sabtshod.com"><Button color="blue" style={{margin: '20px', width: '20%'}}>ثبت
+                          شد</Button></a>
+                        <a style={{color: 'white!important'}} href="http://utadoc.com"><Button color="blue" style={{
+                          margin: '20px',
+                          width: '20%'
+                        }}>UM</Button></a>
+                      </Grid.Column>) : (null)}
+                  </Grid.Row>
+                </Grid>
+              )
             )}
 
         </CenteredSection>

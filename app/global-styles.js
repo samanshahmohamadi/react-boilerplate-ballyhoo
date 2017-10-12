@@ -78,4 +78,10 @@ injectGlobal`
   a:hover {
      color: #000!important;
   }
+  
+  .menu > .item {
+    font-size: 16px;
+    font-weight:bold;
+  
+  }
 `;

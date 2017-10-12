@@ -67,6 +67,7 @@ const initialState = {};
 const store = configureStore(initialState, browserHistory);
 
 import {persistStore} from 'redux-persist-immutable'
+
 export const purgeReduxState = () => {
   persistStore(store, {blacklist: ['route']}).purge()
 }

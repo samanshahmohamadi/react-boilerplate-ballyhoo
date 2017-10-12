@@ -63,9 +63,8 @@ export default function configureStore(initialState = {}, history) {
     });
   }
   // persistStore(store)
-  persistStore(store, {blacklist: ['route']})
+  persistStore(store, {whitelist:'global',blacklist: ['route']})
 
 
   return store;
 }
-

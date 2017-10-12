@@ -44,7 +44,7 @@ export class GalleryPage extends React.PureComponent { // eslint-disable-line re
       />
       {this.props.galleries !== undefined ? (
         <div style={mainStyle}>
-          <Card.Group itemsPerRow={4}>
+          <Card.Group>
             {Object.keys(this.props.galleries).map(function (k) {
               let item = this.props.galleries[k]
               return <Card key={k}>

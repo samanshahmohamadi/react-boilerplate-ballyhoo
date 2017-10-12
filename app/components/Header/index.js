@@ -10,6 +10,9 @@ import HeaderLink from './HeaderLink';
 import Banner from './banner.jpg';
 import messages from './messages';
 import StyledButton from '../Button/StyledButton';
+import {Grid, Menu} from "semantic-ui-react";
+
+import {browserHistory} from 'react-router'
 
 class Header extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
@@ -22,32 +25,78 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
     super(props);
   }
 
-  handleLogout = () => {
-
+  handleItemClick(link) {
+    browserHistory.push(link)
   }
 
   render() {
+    const {activeItem} = 'features'
 
     return (
-      <div style={{background: '#fbbd08', paddingRight: '5%', paddingLeft: '5%'}}>
+      <div style={{background: '#fbbd08'}}>
         {/* <A href="https://twitter.com/mxstbr">
          <Img src={Banner} alt="react-boilerplate - Logo" />
          </A>*/}
-        <NavBar>
-          <HeaderLink style={{float: 'right'}} to="/">
-            <FormattedMessage {...messages.home} />
-          </HeaderLink>
+        <Menu borderless style={{
+          background: '#fbbd08',
+          paddingTop: '5px',
+          paddingBottom: '5px',
+          paddingRight: '5%',
+          paddingLeft: '5%',
+          fontFamily: 'iransans'
+        }} color="yellow"
+              stackable>
+          <Menu.Item
+            name='home'
+            active={activeItem === 'home'}
+            onClick={() => this.handleItemClick("/")}
+          >
+            خانه
+          </Menu.Item>
           {this.props.isAuthenticated === true ?
-            (<div>
-              <HeaderLink style={{float: 'right'}} to="/gallery">
-                گالری
-              </HeaderLink>
-              <HeaderLink style={{float: 'left'}} onClick={this.props.signOut}>
-                خروج
-              </HeaderLink>
-            </div>) : (null)
+            <Menu.Item
+              name='gallery'
+              active={activeItem === 'gallery'}
+              onClick={() => this.handleItemClick("/gallery")}
+            >
+              آلبوم
+            </Menu.Item> : null
           }
-        </NavBar>
+          {this.props.isAuthenticated === true ?
+            <Menu.Item
+              name='sign-out'
+              active={activeItem === 'sign-out'}
+              onClick={this.props.signOut}
+            >
+              خروج
+            </Menu.Item> : null
+          }
+        </Menu>
+        {/*<Grid textAlign={'center'} centered stackable>
+         <Grid.Row columns={3}>
+         <Grid.Column mobile={5}>
+         <HeaderLink to="/">
+         <FormattedMessage {...messages.home} />
+         </HeaderLink>
+         </Grid.Column>
+         {this.props.isAuthenticated === true ?
+         (
+         <Grid.Column mobile={5}>
+         <HeaderLink to="/gallery">
+         گالری
+         </HeaderLink>
+         </Grid.Column>
+         ) : (null)}
+         {this.props.isAuthenticated === true ?
+         (
+         <Grid.Column mobile={5}>
+         <HeaderLink onClick={this.props.signOut}>
+         خروج
+         </HeaderLink>
+         </Grid.Column>
+         ) : (null)}
+         </Grid.Row>
+         </Grid>*/}
       </div>
     );
   }

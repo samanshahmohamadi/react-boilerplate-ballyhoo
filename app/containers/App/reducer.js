@@ -21,6 +21,7 @@ import {
 
 import {SIGN_IN_SUCCESS} from '../HomePage/constants'
 import {SIGN_UP_SUCCESS} from '../SignUpPage/constants'
+import {REHYDRATE} from 'redux-persist/constants'
 
 // The initial state of the App
 const initialState = fromJS({
@@ -32,7 +33,8 @@ const initialState = fromJS({
   }
 });
 
-function appReducer (state = initialState, action) {
+function appReducer(state = initialState, action) {
+  console.log(action.type)
   switch (action.type) {
     case LOAD_REPOS:
       return state
@@ -60,7 +62,10 @@ function appReducer (state = initialState, action) {
       return state
         .set('currentUser', false)
         .set('isAuthenticated', false)
-
+    case "persist/REHYDRATE":
+      return state
+        .set('error', false)
+        .set('loading', false);
     default:
       return state;
   }

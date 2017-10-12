@@ -24,7 +24,7 @@ import {signOut } from './actions';
 
 import {browserHistory} from 'react-router';
 
-import {purgeReduxState} from '../../app'
+// import {purgeReduxState} from '../../app'
 
 const AppWrapper = styled.div`
   margin: 0 auto;
@@ -33,7 +33,7 @@ const AppWrapper = styled.div`
   flex-direction: column;
 `;
 
-const childrenStyle = {minHeight: '100vh', /*background: `url(${homeBackground})`*/};
+const childrenStyle = {minHeight: '100vh', paddingTop:'25px' /*background: `url(${homeBackground})`*/};
 
 export function App(props) {
   return (
@@ -68,7 +68,7 @@ export function mapDispatchToProps (dispatch) {
   return {
     onSignOut: (evt) => {
       dispatch(signOut())
-      purgeReduxState()
+      // purgeReduxState()
       browserHistory.push('/')
     },
   };

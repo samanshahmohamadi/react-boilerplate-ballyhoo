@@ -34,7 +34,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
    */
   state = {formData: {email: '', password: ''}, countries: [], companyActivities: []}
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.resetErrorAndLoading()
     let countries = getCountries(true)
     let companyActivities = getCompanyActivity()
@@ -62,7 +62,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     this.props.onSubmitForm(this.state.formData)
   }
 
-  render () {
+  render() {
     const {email, password} = this.state
     const {loading, error, repos} = this.props;
     const reposListProps = {
@@ -87,11 +87,12 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
           </H4>
           <Divider/>
           <Form loading={this.props.loading} onSubmit={this.handleSubmit} style={loginFormStyle}>
-            <Grid>
+            <Grid centered={true}>
               <Grid.Row>
 
-                <Grid.Column width={5}>
-                  <H3><FormattedMessage {...messages.accountInfo}/></H3>
+                <Grid.Column mobile={12} computer={5}>
+                  <H3
+                    style={{textAlign: 'center', paddingTop: '30px'}}><FormattedMessage {...messages.accountInfo}/></H3>
                   <Form.Field>
                     <label>ایمیل</label>
                     <input required={true} name="email" placeholder='ایمیل' onChange={this.handleInputChange}/>
@@ -103,7 +104,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                   <Form.Field>
                     <label>نام خانوادگی</label>
                     <input required={true} name="lastName" placeholder='نام خانوادگی'
-                                               onChange={this.handleInputChange}/>
+                           onChange={this.handleInputChange}/>
                   </Form.Field>
                   <Form.Field>
                     <label>سمت</label>
@@ -116,24 +117,28 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                   <Form.Field>
                     <label>رمز عبور</label>
                     <input minLength={6} required={true} type="password" name="password" placeholder='رمز عبور'
-                                               onChange={this.handleInputChange}/>
+                           onChange={this.handleInputChange}/>
                   </Form.Field>
                   <Form.Field>
                     <label>تکرار رمز عبور</label>
-                    <input minLength={6} required={true} type="password" name="confirmPassword" placeholder='تکرار رمز عبور'
-                                               onChange={this.handleInputChange}/>
+                    <input minLength={6} required={true} type="password" name="confirmPassword"
+                           placeholder='تکرار رمز عبور'
+                           onChange={this.handleInputChange}/>
                   </Form.Field>
                 </Grid.Column>
-                <Grid.Column width={5}>
-                  <H3><FormattedMessage {...messages.companyInfo}/></H3>
+                <Grid.Column mobile={12} computer={5}>
+                  <H3
+                    style={{textAlign: 'center', paddingTop: '30px'}}><FormattedMessage {...messages.companyInfo}/></H3>
                   <Form.Field>
                     <label>کشور</label>
-                    <Dropdown style={{direction:'ltr'}} name="companyCountry" onChange={this.handleDropdownChange} placeholder='کشور' fluid
+                    <Dropdown style={{direction: 'ltr'}} name="companyCountry" onChange={this.handleDropdownChange}
+                              placeholder='کشور' fluid
                               search selection options={this.state.countries}/>
                   </Form.Field>
                   <Form.Field>
                     <label>نوع فعالیت</label>
-                    <Dropdown style={{direction:'ltr'}} name="companyActivity" onChange={this.handleDropdownChange} placeholder='نوع فعالیت'
+                    <Dropdown style={{direction: 'ltr'}} name="companyActivity" onChange={this.handleDropdownChange}
+                              placeholder='نوع فعالیت'
                               fluid selection options={this.state.companyActivities}/>
                   </Form.Field>
                   <Form.Field>
@@ -158,24 +163,31 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                   </Form.Field>
                   <Form.Field>
                     <label>وبسایت</label>
-                    <Input style={{direction:'ltr', fontFamily:'Open Sans'}} label='http://' name="companyWebsite" placeholder='example.com'
+                    <Input style={{direction: 'ltr', fontFamily: 'Open Sans'}} label='http://' name="companyWebsite"
+                           fluid
+                           placeholder='example.com'
                            onChange={this.handleInputChange}/>
                     {/*<input name="companyWebsite" placeholder='Company Website' onChange={this.handleInputChange}/>*/}
                   </Form.Field>
                 </Grid.Column>
-                <Grid.Column width={5}>
-                  <H3><FormattedMessage {...messages.creativeDirectorInfo}/></H3>
+                <Grid.Column mobile={12} computer={5}>
+                  <H3 style={{
+                    textAlign: 'center',
+                    paddingTop: '30px'
+                  }}><FormattedMessage {...messages.creativeDirectorInfo}/></H3>
                   <Form.Field>
                     <label>نام</label>
                     <input required={true} name="cdName" placeholder='نام'
-                                               onChange={this.handleInputChange}/>
+                           onChange={this.handleInputChange}/>
                   </Form.Field>
                   <Form.Field>
                     <label>نام خانوادگی</label>
                     <input required={true} name="cdLastName" placeholder='نام خانوادگی'
-                                               onChange={this.handleInputChange}/>
+                           onChange={this.handleInputChange}/>
                   </Form.Field>
-                  <Button style={{bottom: '0', position: 'absolute'}} fluid color='green'>ثبت نام</Button>
+                  <Form.Field>
+                    <Button fluid color='green'>ثبت نام</Button>
+                  </Form.Field>
                   {this.props.error && this.props.error !== false ? (<Message negative>
                     <Message.Header>خطا!</Message.Header>
                     <p><FormattedMessage {...messages[this.props.error]} /></p>
@@ -208,7 +220,7 @@ HomePage.propTypes = {
   onChangePassword: React.PropTypes.func
 };
 
-export function mapDispatchToProps (dispatch) {
+export function mapDispatchToProps(dispatch) {
   return {
     // onChangeEmail: (evt) => dispatch(changeEmail(evt.target.value)),
     // onChangePassword: (evt) => dispatch(changePassword(evt.target.value)),
