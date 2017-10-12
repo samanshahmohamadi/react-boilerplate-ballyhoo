@@ -49,7 +49,7 @@ export function* onGetGallery() {
 }
 
 function fetchDownloadFile(params) {
-  window.open("http://localhost:8080"+ '/downloadTnxFile/' + params.token + '&' + params.mediaId)
+  window.open("http://utadoc.com"+ '/downloadTnxFile/' + params.token + '&' + params.mediaId)
   // return new HttpRequest().get('/downloadTnxFile/' + params.token + '&' + params.mediaId, {})
 }
 
