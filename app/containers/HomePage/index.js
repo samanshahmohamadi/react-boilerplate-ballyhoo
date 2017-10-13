@@ -181,7 +181,8 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                   let fd = new FormData();
                   fd.append("token", this.props.user.token)
                   Object.keys(this.state.tnxData).map(function (k) {
-                    if (!this.state.tnxData.upload && k === 'files') {
+                    if (k === 'files') {
+                      fd.append(k, this.state.tnxData[k], this.props.user.userId + "-" + new Date().getTime() + '.zip');
                     } else {
                       fd.append(k, this.state.tnxData[k])
                     }
@@ -252,7 +253,6 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       tnxData: {...this.state.tnxData, ...{[name]: value}}
     }, () => {
       const option = _.find(this.state.createTnxForm.plan, {value})
-      // console.log(`Changed to text: ${option.text}`)
       this.setState({
         planName: option.text,
         planFee: option.fee,
@@ -264,6 +264,15 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
 
   handleFileSelect = (e) => {
     this.props.clearSelectFileError()
+    let dupName = Object.keys(this.state.fileTmp).map((k) => {
+      if (e.target.files[0].name === this.state.fileTmp[k].name) {
+        this.props.onSelectFileError('duplicate.file_name')
+        return true
+      }
+    });
+    if (dupName.includes(true)) {
+      return
+    }
     let file = e.target.files[0]
     let size = bytesToMb(file.size)
     let fileType = file.type
@@ -275,95 +284,126 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
       this.props.onSelectFileError('wrong.field')
       return
     }
+    let sizeAndTypeValidation = this.validateFileByFieldAndSize(fileType, size)
+    if (!sizeAndTypeValidation) return false
+    this.validateVideoByDuration(file)
+      .then(payload => {
+        if (payload) {
+          this.setState({
+            fileTmp: {...this.state.fileTmp, ...{[fieldName]: file}}
+          }, () => {
+            let files = []
+            Object.keys(this.state.fileTmp).map((k) => {
+              files.push(this.state.fileTmp[k])
+            });
+            this.setState({
+              tnxData: {...this.state.tnxData, ...{'files': files}}
+            })
+          })
+        } else {
+          this.props.onSelectFileError('video.duration_limit')
+          return false
+        }
+      })
+  }
+
+  validateVideoByDuration(file) {
+    if (file.type !== 'video/mp4') return Promise.resolve(true)
+    return getVideoDuration(file)
+      .then(payload => {
+        return payload <= 100;
+      })
+      .catch(() => {
+        return false
+      })
+  }
+
+
+  validateFileByFieldAndSize(fileType, size) {
     if (this.state.tnxData.type === 'campaignplus') {
       if (fileType === 'application/pdf' || fileType === 'video/mp4') {
         if (fileType === 'application/pdf') {
           if (size > 20) {
             this.props.onSelectFileError('size_limit.20')
-            return
+            return false
           }
           if (this.state.selectedFilesCountByType.pdf > 0) {
             if (this.state.fileTmp.fieldName && this.state.fileTmp.fieldName.type === 'application/pdf') {
               this.setState({selectedFilesCountByType: {...this.state.selectedFilesCountByType, ...{'pdf': this.state.selectedFilesCountByType.pdf + 1}}})
+              return true
             } else {
               this.props.onSelectFileError('enough.pdf')
-              return
+              return false
             }
           } else {
             this.setState({selectedFilesCountByType: {...this.state.selectedFilesCountByType, ...{'pdf': this.state.selectedFilesCountByType.pdf + 1}}})
+            return true
           }
         } else if (fileType === 'video/mp4') {
           if (size > 20) {
             this.props.onSelectFileError('size_limit.20')
-            return
+            return false
           }
           if (this.state.selectedFilesCountByType.movie > 2) {
             if (this.state.fileTmp.fieldName && this.state.fileTmp.fieldName.type === 'video/mp4') {
               this.setState({selectedFilesCountByType: {...this.state.selectedFilesCountByType, ...{'movie': this.state.selectedFilesCountByType.movie + 1}}})
+              return true
             } else {
               this.props.onSelectFileError('enough.movie')
-              return
+              return false
             }
           } else {
             if (size > 20) {
               this.props.onSelectFileError('size_limit.20')
-              return
+              return false
             }
             this.setState({selectedFilesCountByType: {...this.state.selectedFilesCountByType, ...{'movie': this.state.selectedFilesCountByType.movie + 1}}})
+            return true
           }
         }
       } else {
         this.props.onSelectFileError('require.video_pdf')
-        return
+        return false
       }
     } else if (this.state.tnxData.type === 'campaign') {
       if (fileType === 'application/pdf') {
         if (size > 20) {
           this.props.onSelectFileError('size_limit.20')
-          return
+          return false
         }
         this.setState({selectedFilesCountByType: {...this.state.selectedFilesCountByType, ...{'pdf': this.state.selectedFilesCountByType.pdf + 1}}})
+        return true
       } else {
         this.props.onSelectFileError('require.pdf')
-        return
+        return false
       }
     } else if (this.state.tnxData.type === 'singleframe') {
       if (fileType === 'application/pdf' || fileType === 'image/jpg' || fileType === 'image/jpeg') {
         if (size > 5) {
           this.props.onSelectFileError('size_limit.5')
-          return
+          return false
         }
         this.setState({selectedFilesCountByType: {...this.state.selectedFilesCountByType, ...{'jpg': this.state.selectedFilesCountByType.jpg + 1}}})
+        return true
       } else {
         this.props.onSelectFileError('require.pdf_jpg')
-        return
+        return false
       }
-    } else if (this.state.tnxData.type === 'film') {
+    } else if (this.state.tnxData.type === 'video') {
       if (fileType === 'video/mp4') {
         if (size > 20) {
           this.props.onSelectFileError('size_limit.20')
-          return
+          return false
         }
         this.setState({selectedFilesCountByType: {...this.state.selectedFilesCountByType, ...{'movie': this.state.selectedFilesCountByType.movie + 1}}})
+        return true
       } else {
         this.props.onSelectFileError('require.video')
-        return
+        return false
       }
     }
-    this.setState({
-      fileTmp: {...this.state.fileTmp, ...{[fieldName]: file}}
-    }, () => {
-      let files = []
-      Object.keys(this.state.fileTmp).map((k) => {
-        files.push(this.state.fileTmp[k])
-      });
-      this.setState({
-        tnxData: {...this.state.tnxData, ...{'files': files}}
-      })
-    })
-
-
   }
+
 
   addFileInput = () => {
     //TODO Show max file number error
@@ -379,9 +419,9 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
 
     return (<article>
       <Helmet
-        title="Home Page"
+        title="صفحه‌ نخست"
         meta={[
-          {name: 'description', content: 'BallyhooAwards'}
+          {name: 'description', content: 'BallyhooAwards-HomePage'}
         ]}
       />
       <div style={mainStyle}>
@@ -426,7 +466,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
             </Grid>) : (
               !this.state.tnxData.type ?
                 (<Grid textAlign={'center'} centered={true}><Grid.Row>
-                    <Grid.Column style={{textAlign:'center'}} computer={8} mobile={12}>
+                    <Grid.Column style={{textAlign: 'center'}} computer={8} mobile={12}>
                       <Divider />
                       <H4>
                         لطفا با توجه به نوع اثر خود یکی از طرح‌ها را انتخاب کنید
@@ -504,13 +544,14 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                                     || ((this.state.fileTmp['file' + (i)].type === 'image/jpg' || this.state.fileTmp['file' + (i)].type === 'image/jpeg' || this.state.fileTmp['file' + (i)].type === 'application/pdf') && e === 'file image outline'))
                                       ? this.state.fileTmp['file' + (i)].name :
                                       <div><i className={"icon " + e}/> انتخاب
-                                        فایل {e === 'film' ? 'ویدئو' : e === 'file pdf outline' ? 'پی‌.دی.اف' : e === 'file image outline' ? 'تصویر' : ('')}
+                                        فایل {e === 'film' ? 'ویدئو' : e === 'file pdf outline' ? 'پی‌.دی.اف (اجباری)' : e === 'file image outline' ? 'تصویر (اجباری)' : ('')}
                                       </div>) : (
                                       <div><i className={"icon " + e}/> انتخاب
-                                        فایل {e === 'film' ? 'ویدئو' : e === 'file pdf outline' ? 'پی‌.دی.اف' : e === 'file image outline' ? 'تصویر' : ('')}
+                                        فایل {e === 'film' ? 'ویدئو' : e === 'file pdf outline' ? 'پی‌.دی.اف (اجباری)' : e === 'file image outline' ? 'تصویر (اجباری)' : ('')}
                                       </div>)
                                   }
-                                  <input type="file" data-type={e} name={"file" + i} style={{display: 'none'}}
+                                  <input required={e === 'file pdf outline' || e === 'file image outline'} type="file"
+                                         data-type={e} name={"file" + i} style={{display: 'none'}}
                                          onChange={(e) => {
                                            this.handleFileSelect(e)
                                          }}/></label>
@@ -529,20 +570,20 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                            کنید؟</Button>
                            </Form.Field>*/}
                           <Form.Field>
-                            <label>اسم اثر</label>
+                            <label>اسم اثر *</label>
                             <input required={true} className={'faNo'} name="name" onChange={this.handleChange}/>
                           </Form.Field>
                           <Form.Field>
-                            <label>موضوع تبلیغ</label>
+                            <label>موضوع تبلیغ *</label>
                             <input required={true} className={'faNo'} name="subject" onChange={this.handleChange}/>
                           </Form.Field>
                           <Form.Field>
-                            <label>ترجمه شعار/متن تبلیغ (به زبان انگلیسی)</label>
+                            <label>ترجمه شعار/متن تبلیغ (به زبان انگلیسی) *</label>
                             <input required={true} style={{direction: 'ltr'}} name="slogan"
                                    onChange={this.handleChange}/>
                           </Form.Field>
                           <Form.Field>
-                            <label className="text-right">توضیحات</label>
+                            <label className="text-right">توضیحات *</label>
                             <TextArea required={true} className={'iranSans'} onChange={this.handleChange} name="desc"
                                       autoHeight
                                       placeholder='توضیح کوتاهی درباره‌ی اثر خود بنویسید...'/>
@@ -566,11 +607,11 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                             />
                           </Form.Field>
                           {/*<Form.Field style={{direction: 'rtl'}}>
-                            <Checkbox value="true" onChange={this.handleUploadCheckbox}
-                                      disabled={this.state.tnxData.server === 'um'}
-                                      checked={this.state.tnxData.upload === true}
-                                      label={{children: 'فایل(ها) روی سرور آپلود شوند.'}}/>
-                          </Form.Field>*/}
+                           <Checkbox value="true" onChange={this.handleUploadCheckbox}
+                           disabled={this.state.tnxData.server === 'um'}
+                           checked={this.state.tnxData.upload === true}
+                           label={{children: 'فایل(ها) روی سرور آپلود شوند.'}}/>
+                           </Form.Field>*/}
 
                           <Form.Field style={{direction: 'rtl'}}>
                             <Card style={{margin: 'auto'}}>

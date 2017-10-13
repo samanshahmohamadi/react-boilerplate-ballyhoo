@@ -16,13 +16,13 @@ export const bytesToMb = (bytes) => {
 export const getVideoDuration = (file) => {
   let video = document.createElement('video');
   video.preload = 'metadata';
+  video.src = URL.createObjectURL(file);
   return new Promise(function (resolve, reject) {
     video.onloadedmetadata = function() {
       window.URL.revokeObjectURL(this.src)
       resolve (video.duration);
     }
   })
-  video.src = URL.createObjectURL(file);
 }
 
 export const timeToJalaliDate = (t) => {

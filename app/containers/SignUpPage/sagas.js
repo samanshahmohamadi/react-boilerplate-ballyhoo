@@ -18,7 +18,7 @@ import { push } from 'react-router-redux';
 function fetchSignUp (params) {
   params.passwordHash = sha256(params.password)
   params.confirmPasswordHash = sha256(params.confirmPassword)
-  params.platform = 'web'
+  params.platform = 'BALLYHOO'
   delete params.password
   delete params.confirmPassword
   return new HttpRequest().post('/signup', params)

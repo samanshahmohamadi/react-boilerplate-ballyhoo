@@ -24,7 +24,7 @@ function fetchSignIn (params) {
 export function* signIn () {
   const email = yield select(makeSelectEmail());
   const password = yield select(makeSelectPassword());
-  let params = {email: email, passwordHash: sha256(password), platform: 'web'}
+  let params = {email: email, passwordHash: sha256(password), platform: 'BALLYHOO'}
   try {
     // Call our request helper (see 'utils/request')
     const response = yield call(fetchSignIn, params);

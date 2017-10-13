@@ -3,7 +3,7 @@
  *
  * This contains all the text for the HomePage component.
  */
-import { defineMessages } from 'react-intl';
+import {defineMessages} from 'react-intl';
 
 export default defineMessages({
   startProjectHeader: {
@@ -81,20 +81,31 @@ export default defineMessages({
     defaultMessage: 'لطفا فایل با فرمت mp4 انتخاب کنید.',
   },
 
-  "wrong.field" : {
+  "wrong.field": {
     id: 'boilerplate.containers.HomePage.error.wrong.field',
     defaultMessage: 'فرمت فایل با ورودی انتخاب شده سازگار نیست.',
   },
 
-  "size_limit.5" : {
+  "size_limit.5": {
     id: 'boilerplate.containers.HomePage.error.size_limit.5',
     defaultMessage: 'حجم فایل نباید بیشتر از ۵ مگابایت باشد.',
   },
 
-  "size_limit.20" : {
+  "size_limit.20": {
     id: 'boilerplate.containers.HomePage.error.size_limit.20',
     defaultMessage: 'حجم فایل نباید بیشتر از ۲۰ مگابایت باشد.',
   },
+
+  "video.duration_limit": {
+    id: 'boilerplate.containers.HomePage.error.video.duration_limit',
+    defaultMessage: 'مدت زمان ویدئو نباید بیشتر از ۱۰۰ ثانیه باشد.',
+  },
+
+  "duplicate.file_name": {
+    id: 'boilerplate.containers.HomePage.error.duplicate.file_name',
+    defaultMessage: 'نام فایل‌ها نباید تکراری باشد.',
+  },
+
 
   "200": {
     id: 'boilerplate.containers.HomePage.success.200',

@@ -37,9 +37,9 @@ export class GalleryPage extends React.PureComponent { // eslint-disable-line re
     const {loading, error} = this.props;
     return (<article>
       <Helmet
-        title="SignUp"
+        title="آلبوم"
         meta={[
-          {name: 'description', content: 'Ballyhooawards'}
+          {name: 'description', content: 'BallyhooAwards-Album'}
         ]}
       />
       {this.props.galleries !== undefined ? (
