@@ -590,6 +590,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                           </Form.Field>
                           <Form.Field style={{direction: 'rtl'}}>
                             <Radio
+                              readOnly
                               label='آثار ارسالی من در «ثبت شد» ثبت شود.'
                               name='server'
                               value='sabtshod'
