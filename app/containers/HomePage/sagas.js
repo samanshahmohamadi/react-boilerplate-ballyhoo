@@ -9,7 +9,6 @@ import {SIGN_IN, CREATE_TNX} from './constants';
 import {reposLoaded, repoLoadingError} from 'containers/App/actions';
 import {signInSuccess, signInError, createTnxSuccess, createTnxError} from './actions';
 
-import request from 'utils/request';
 import HttpRequest from '../../utils/HttpRequest';
 import {sha256} from '../../utils/crypto';
 

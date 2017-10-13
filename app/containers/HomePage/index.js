@@ -57,6 +57,8 @@ const mainStyle = {padding: '2% 4%'};
 const loginFormContainerStyle = {/*background: 'rgba(255, 213, 79,0.9)', border: 'solid 1px rgba(255, 213, 79,1.0)', borderRadius: '3px'*/}
 const loginFormStyle = {padding: '10px', textAlign: 'center'}
 const signupLinkStyle = {color: 'rgba(255, 179, 0,1.0)'}
+const forgetPasswordLinkStyle = {color: 'rgba(255, 179, 0,1.0)', fontSize:'12px'}
+
 import {digestFile, makeZip} from '../../utils/crypto'
 import * as _ from "lodash";
 
@@ -466,6 +468,10 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                              onChange={this.props.onChangePassword}/>
                     </Form.Field>
                     <Button color="green">ورود</Button>
+                    <H4>
+                      <Link style={forgetPasswordLinkStyle}
+                            to="/forgetpassword">{this.props.intl.formatMessage({...messages.forgotYourPassword})}</Link>
+                    </H4>
                   </Form>{this.props.error && this.props.error !== false && this.props.error !== 208 ? (
                     <Message negative>
                       <Message.Header>خطا!</Message.Header>

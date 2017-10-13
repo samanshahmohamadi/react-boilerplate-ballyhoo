@@ -14,6 +14,10 @@ export default defineMessages({
     id: 'boilerplate.containers.HomePage.login_form.not_signed_up',
     defaultMessage: 'حساب کاربری ندارید؟',
   },
+  forgotYourPassword: {
+    id: 'boilerplate.containers.HomePage.login_form.forget_password',
+    defaultMessage: 'رمز عبورتان را فراموش کرده‌اید؟',
+  },
   startProjectMessage: {
     id: 'boilerplate.containers.HomePage.start_project.message',
     defaultMessage: 'A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices',
