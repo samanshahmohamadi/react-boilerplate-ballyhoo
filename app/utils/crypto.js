@@ -23,7 +23,6 @@ export const digestFile = (file) => {
       var fileReader = new FileReader();
       fileReader.readAsBinaryString(file);
       fileReader.onload = function (event) {
-        console.log(event)
         var content
         if (!event) {
           content = fileReader.content;
