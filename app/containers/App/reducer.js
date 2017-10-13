@@ -28,27 +28,10 @@ const initialState = fromJS({
   loading: false,
   error: false,
   currentUser: false,
-  userData: {
-    repositories: false
-  }
 });
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
-    case LOAD_REPOS:
-      return state
-        .set('loading', true)
-        .set('error', false)
-        .setIn(['userData', 'repositories'], false);
-    case LOAD_REPOS_SUCCESS:
-      return state
-        .setIn(['userData', 'repositories'], action.repos)
-        .set('loading', false)
-    // .set('currentUser', action.username);
-    case LOAD_REPOS_ERROR:
-      return state
-        .set('error', action.error)
-        .set('loading', false);
     case SIGN_IN_SUCCESS:
       return state
         .set('currentUser', action.response.data)
@@ -61,10 +44,10 @@ function appReducer(state = initialState, action) {
       return state
         .set('currentUser', false)
         .set('isAuthenticated', false)
-    case "persist/REHYDRATE":
+/*    case "persist/REHYDRATE":
       return state
         .set('error', false)
-        .set('loading', false);
+        .set('loading', false);*/
     default:
       return state;
   }

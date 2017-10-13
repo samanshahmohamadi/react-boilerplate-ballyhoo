@@ -413,6 +413,16 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     })
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    /*console.log(prevState)
+    if (prevProps.isAuthenticated === false && prevState.fileTmp !== {}) {
+      this.setState({fileTmp: {}}, () => {
+        console.log(this.state.fileTmp)
+      })
+    }*/
+  }
+
+
   render() {
     const {email, password} = this.state
     const {loading, error, repos} = this.props;

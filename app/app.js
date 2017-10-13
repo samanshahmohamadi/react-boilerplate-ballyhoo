@@ -11,11 +11,11 @@ import 'babel-polyfill';
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
+import {Provider} from 'react-redux';
+import {applyRouterMiddleware, Router, browserHistory} from 'react-router';
+import {syncHistoryWithStore} from 'react-router-redux';
 import FontFaceObserver from 'fontfaceobserver';
-import { useScroll } from 'react-router-scroll';
+import {useScroll} from 'react-router-scroll';
 import 'sanitize.css/sanitize.css';
 
 import '!!style-loader!css-loader!./styles/font/iransans.css';
@@ -25,7 +25,7 @@ import '!!style-loader!css-loader!./styles/font/iransans.css';
 import App from 'containers/App';
 
 // Import selector for `syncHistoryWithStore`
-import { makeSelectLocationState } from 'containers/App/selectors';
+import {makeSelectLocationState} from 'containers/App/selectors';
 
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
@@ -40,7 +40,7 @@ import 'file-loader?name=[name].[ext]!./.htaccess'; // eslint-disable-line impor
 import configureStore from './store';
 
 // Import i18n messages
-import { translationMessages } from './i18n';
+import {translationMessages} from './i18n';
 
 // Import CSS reset and Global Styles
 import './global-styles';
@@ -64,45 +64,46 @@ openSansObserver.load().then(() => {
 // Optionally, this could be changed to leverage a created history
 // e.g. `const browserHistory = useRouterHistory(createBrowserHistory)();`
 const initialState = {};
-const store = configureStore(initialState, browserHistory);
-
-import {persistStore} from 'redux-persist-immutable'
-
-export const purgeReduxState = () => {
-  persistStore(store, {blacklist: ['route']}).purge()
-}
+// const store = configureStore(initialState, browserHistory);
 
 
-// Sync history and store, as the react-router-redux reducer
-// is under the non-default key ("routing"), selectLocationState
-// must be provided for resolving how to retrieve the "route" in the state
-const history = syncHistoryWithStore(browserHistory, store, {
-  selectLocationState: makeSelectLocationState(),
-});
-
-// Set up the router, wrapping all Routes in the App component
-const rootRoute = {
-  component: App,
-  childRoutes: createRoutes(store),
-};
 
 const render = (messages) => {
-  ReactDOM.render(
-    <Provider store={store}>
-      <LanguageProvider messages={messages}>
-        <Router
-          history={history}
-          routes={rootRoute}
-          render={
-            // Scroll to top when going to a new page, imitating default browser
-            // behaviour
-            applyRouterMiddleware(useScroll())
-          }
-        />
-      </LanguageProvider>
-    </Provider>,
-    document.getElementById('app')
-  );
+  configureStore(initialState, browserHistory)
+    .then(store => {
+
+      // Sync history and store, as the react-router-redux reducer
+      // is under the non-default key ("routing"), selectLocationState
+      // must be provided for resolving how to retrieve the "route" in the state
+      const history = syncHistoryWithStore(browserHistory, store, {
+        selectLocationState: makeSelectLocationState(),
+      });
+
+      // Set up the router, wrapping all Routes in the App component
+      const rootRoute = {
+        component: App,
+        childRoutes: createRoutes(store),
+      };
+
+      ReactDOM.render(
+        <Provider store={store}>
+          <LanguageProvider messages={messages}>
+            <Router
+              history={history}
+              routes={rootRoute}
+              render={
+                // Scroll to top when going to a new page, imitating default browser
+                // behaviour
+                applyRouterMiddleware(useScroll())
+              }
+            />
+          </LanguageProvider>
+        </Provider>,
+        document.getElementById('app')
+      );
+
+    })
+
 };
 
 // Hot reloadable translation json files
