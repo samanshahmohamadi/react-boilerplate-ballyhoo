@@ -10,6 +10,8 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 import globalReducer from 'containers/App/reducer';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 
+import {SIGN_OUT} from 'containers/App/constants'
+
 /*
  * routeReducer
  *
@@ -33,6 +35,8 @@ function routeReducer(state = routeInitialState, action) {
       return state.merge({
         locationBeforeTransitions: action.payload,
       });
+    case SIGN_OUT:
+      return routeInitialState
     default:
       return state;
   }

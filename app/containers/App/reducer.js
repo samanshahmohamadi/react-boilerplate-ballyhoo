@@ -13,15 +13,11 @@
 import {fromJS} from 'immutable';
 
 import {
-  LOAD_REPOS_SUCCESS,
-  LOAD_REPOS,
-  LOAD_REPOS_ERROR,
   SIGN_OUT
 } from './constants';
 
 import {SIGN_IN_SUCCESS} from '../HomePage/constants'
 import {SIGN_UP_SUCCESS} from '../SignUpPage/constants'
-import {REHYDRATE} from 'redux-persist/constants'
 
 // The initial state of the App
 const initialState = fromJS({
@@ -41,13 +37,10 @@ function appReducer(state = initialState, action) {
         .set('currentUser', action.response.data)
         .set('isAuthenticated', true)
     case SIGN_OUT:
-      return state
+      return initialState
+      /*return state
         .set('currentUser', false)
-        .set('isAuthenticated', false)
-/*    case "persist/REHYDRATE":
-      return state
-        .set('error', false)
-        .set('loading', false);*/
+        .set('isAuthenticated', false)*/
     default:
       return state;
   }
