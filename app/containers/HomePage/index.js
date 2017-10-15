@@ -46,7 +46,7 @@ import {
 } from './selectors';
 
 import {
-  Button, Card, Checkbox, Container, Divider, Dropdown, Form, Grid, Header, Icon, Label, Message, Popup, Radio,
+  Button, Card, Checkbox, Container, Divider, Dropdown, Form, Grid, Header, Icon, Label, Message, Popup, Radio, Segment,
   TextArea
 } from 'semantic-ui-react';
 
@@ -62,6 +62,7 @@ const forgetPasswordLinkStyle = {color: 'rgba(255, 179, 0,1.0)', fontSize:'12px'
 import {digestFile, makeZip} from '../../utils/crypto'
 import * as _ from "lodash";
 
+import '!!style-loader!css-loader!sass-loader!./style.scss';
 
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   /**
@@ -429,6 +430,25 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
     const {email, password} = this.state
     const {loading, error, repos} = this.props;
 
+    const plans = [
+      {
+        header: 'کمپین پلاس',
+        description: '۱ تا ۳ عدد فیلم mp4 هر کدام حداکثر ۱۰۰ ثانیه و حجم هر کدام حداکثر ۲۰ مگابایت + یک فایل PDF شامل ۳ تا ۵ فریم تصویر با حجم حداکثر ۲۰ مگابایت',
+      },
+      {
+        header: 'کمپین',
+        description: 'یک فایل PDF شامل ۳ تا ۵ فریم تصویر با حداکثر حجم ۲۰ مگابایت',
+      },
+      {
+        header: 'تک فریم',
+        description: 'یک فایل PDF یا JPG با حداکثر حجم ۵ مگابایت',
+      },
+      {
+        header: 'فیلم',
+        description: '۱ عدد فیلم mp4 حداکثر ۱۰۰ ثانیه و حجم حداکثر ۲۰ مگابایت',
+      }
+    ]
+
     return (<article>
       <Helmet
         title="صفحه‌ نخست"
@@ -467,7 +487,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                       <input style={{direction: 'ltr'}} type="password" placeholder='رمز عبور'
                              onChange={this.props.onChangePassword}/>
                     </Form.Field>
-                    <Button color="green">ورود</Button>
+                    <Button color="yellow" style={{color:'black'}}>ورود</Button>
                     <H4>
                       <Link style={forgetPasswordLinkStyle}
                             to="/forgetpassword">{this.props.intl.formatMessage({...messages.forgotYourPassword})}</Link>
@@ -482,11 +502,16 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
             </Grid>) : (
               !this.state.tnxData.type ?
                 (<Grid textAlign={'center'} centered={true}><Grid.Row>
+                    <Grid.Column only='mobile tablet' mobile={12}>
+                      <Divider />
+                      <Card.Group style={{textAlign: 'right'}} items={plans} />
+                    </Grid.Column>
                     <Grid.Column style={{textAlign: 'center'}} computer={8} mobile={12}>
                       <Divider />
                       <H4>
                         لطفا با توجه به نوع اثر خود یکی از طرح‌ها را انتخاب کنید
                       </H4>
+
                       <Popup
                         wide
                         inverted
@@ -643,12 +668,12 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                                 </Card.Meta>
                                 <Card.Description className={'faNo'}>
 
-                                  <Label as='a' color='teal'
+                                  <Label style={{color:'black'}} as='a' color='yellow'
                                          tag>{numberWithCommas(this.state.tnxData.server === 'um' ? this.state.planFee : 0)}
                                     تومان</Label>
                                 </Card.Description>
                               </Card.Content>
-                              <Label style={{left: '-60%', width: '50%'}} as='a' color='green'
+                              <Label style={{left: '-60%', width: '50%'}} as='a' color='yellow'
                                      ribbon>{this.state.planName}</Label>
                               <Card.Content extra>
                                 <a className="faNo">
@@ -657,7 +682,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                               </Card.Content>
                             </Card>
                           </Form.Field>
-                          <Button fluid color={'green'}>ارسال</Button>
+                          <Button style={{color:'black'}} fluid color={'yellow'}>ارسال</Button>
                         </Form>
                       </Container>
                     </Grid.Column>
@@ -673,11 +698,11 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                             برای اطلاعات بیشتر و یا ثبت آثار می‌توانید از لینک‌های زیر استفاده کنید.
                           </Message>
                         </Container>
-                        <a href="http://sabtshod.com"><Button color="blue" style={{margin: '20px', width: '20%'}}>ثبت
+                        <a href="http://sabtshod.com"><Button color="yellow" style={{color: 'black!important',margin: '20px', width: '35%'}}>ثبت
                           شد</Button></a>
-                        <a style={{color: 'white!important'}} href="http://utadoc.com"><Button color="blue" style={{
+                        <a style={{color: 'black!important'}} href="http://utadoc.com"><Button color="yellow" style={{
                           margin: '20px',
-                          width: '20%'
+                          width: '35%'
                         }}>UM</Button></a>
                       </Grid.Column>) : (null)}
                   </Grid.Row>

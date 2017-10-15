@@ -48,7 +48,7 @@ export class GalleryPage extends React.PureComponent { // eslint-disable-line re
             {Object.keys(this.props.galleries).map(function (k) {
               let item = this.props.galleries[k]
               return <Card key={k}>
-                <Icon style={{margin: '10px auto 10px auto'}} color='blue' name='film' size='massive'/>
+                <Icon style={{margin: '10px auto 10px auto'}} color='black' name='film' size='massive'/>
                 <Card.Content>
                   <Card.Header>
                     {item.name ? item.name : ''}
@@ -67,7 +67,7 @@ export class GalleryPage extends React.PureComponent { // eslint-disable-line re
                 </Card.Content>
                 <Card.Content style={{textAlign: 'center'}} extra>
                   {item.fileId ? (
-                    <Button onClick={() => this.downloadTnxFile(item.fileId)} basic color="blue">دانلود فایل</Button>
+                    <Button onClick={() => this.downloadTnxFile(item.fileId)} basic color="yellow">دانلود فایل</Button>
                   ) : (null)}
                 </Card.Content>
               </Card>

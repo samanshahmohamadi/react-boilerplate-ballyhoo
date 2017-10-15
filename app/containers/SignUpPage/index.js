@@ -186,7 +186,7 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
                            onChange={this.handleInputChange}/>
                   </Form.Field>
                   <Form.Field>
-                    <Button fluid color='green'>ثبت نام</Button>
+                    <Button fluid color='yellow' style={{color:'black'}}>ثبت نام</Button>
                   </Form.Field>
                   {this.props.error && this.props.error !== false ? (<Message negative>
                     <Message.Header>خطا!</Message.Header>
