@@ -10,8 +10,8 @@ import HeaderLink from './HeaderLink';
 import Banner from './banner.jpg';
 import messages from './messages';
 import StyledButton from '../Button/StyledButton';
-import {Grid, Menu} from "semantic-ui-react";
-
+import {Grid, Image, Menu} from "semantic-ui-react";
+import logo from './logo.png'
 import {browserHistory} from 'react-router'
 
 class Header extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -71,6 +71,12 @@ class Header extends React.Component { // eslint-disable-line react/prefer-state
               خروج
             </Menu.Item> : null
           }
+          <Menu.Item
+            position="left"
+            name='logo'
+          >
+            <Image src={logo} size='small' />
+          </Menu.Item>
         </Menu>
         {/*<Grid textAlign={'center'} centered stackable>
          <Grid.Row columns={3}>
